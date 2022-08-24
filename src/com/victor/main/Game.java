@@ -8,8 +8,14 @@ import java.awt.Graphics;
 //import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
+
+import com.victor.entities.Entity;
+import com.victor.entities.Player;
+import com.victor.graficos.Spritesheet;
 
 public class Game extends Canvas implements Runnable{
 	
@@ -23,11 +29,20 @@ public class Game extends Canvas implements Runnable{
 	
 	private BufferedImage image;
 	
+	public List<Entity> entities;
+	public Spritesheet spritesheet;
+	
+	
 	public Game() {
 		setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
 		intFrame();
+		//INICIALIZANDO OBJETOS
 		image = new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB);
+		entities = new ArrayList<Entity>();
+		spritesheet = new Spritesheet("/spritesheet.png");	//chamando o arquivo res/spritesheet.png	
 		
+		entities.add(new Player(0, 0, 16, 16, spritesheet.getSprite(32, 0, 16, 16) ));	/*(0, 0, 16,16) eh onde o Player inicia no mapa e (32, 0, 16, 16) eh a 
+		regiao em que esta a imagem do player na spritesheet*/
 	}
 	
 	public void intFrame() {
@@ -59,11 +74,16 @@ public class Game extends Canvas implements Runnable{
 	public static void main (String [] args) {
 		Game game = new Game();
 		game.start();
+		
 	}
 	
 	
 	public void tick () {
-		
+		//LOGICA PARA CRIAR ENTIDADES
+		for(int i = 0; i < entities.size(); i++) {
+			Entity e = entities.get(i);
+			e.tick();
+		}
 	} 
 	
 	
@@ -75,13 +95,17 @@ public class Game extends Canvas implements Runnable{
 			this.createBufferStrategy(3);
 			return;
 		}
-		Graphics g = bs.getDrawGraphics();
+		Graphics g = image.getGraphics();
 		
 		g.setColor(new Color (0, 0, 0));
-		g.fillRect(0, 0, WIDTH*SCALE, HEIGHT*SCALE);
+		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
 		//Render do game
 		//Graphics2D g2 = (Graphics2D) g;
+		for(int i = 0; i < entities.size(); i++) {
+			Entity e = entities.get(i);
+			e.render(g);
+		}
 		
 		g.dispose();
 		g = bs.getDrawGraphics();
@@ -103,7 +127,7 @@ public class Game extends Canvas implements Runnable{
 		
 		while (isRunning ) {
 			long now = System.nanoTime();
-			delta+= (now - lastTime) / ns;
+			delta += (now - lastTime) / ns;
 			lastTime = now;
 			if(delta >= 1) {
 				tick();
@@ -117,57 +141,10 @@ public class Game extends Canvas implements Runnable{
 				frames = 0;
 				timer+=1000;
 			}
+			
 		}
 		stop();
 	}
 	
 	
-	
-	/*
-
-	//TECLADO (KeyListener) Config
-	
-	@Override
-	public void keyPressed(KeyEvent e) {
-		//LOGICA para precionar
-		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			player.right = true;
-		}else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			player.left = true;
-		}
-		//Botao para atirar
-		if(e.getKeyCode() == KeyEvent.VK_Q) {
-			player.shoot = true;
-		}
-		if (e.getKeyCode() == KeyEvent.VK_UP) {
-			player.up = true;
-		}else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			player.down = true;
-		}
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		//LOGICA para soltar botao
-		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			player.right = false;
-		}else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			player.left = false;
-		}
-		if (e.getKeyCode() == KeyEvent.VK_UP) {
-			player.up = false;
-		}else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			player.down = false;
-		}
-		
-	}
-	
-	@Override
-	public void keyTyped(KeyEvent e) {
-	
-		
-	}
-	
-	*/
 }
