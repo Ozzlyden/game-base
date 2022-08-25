@@ -5,10 +5,10 @@ import java.awt.image.BufferedImage;
 
 public class Entity {
 	
-	private int x;
-	private int y;
-	private int width;
-	private int height;
+	protected double x;
+	protected double y;
+	protected int width;
+	protected int height;
 	
 	private BufferedImage sprite;
 	
@@ -23,12 +23,20 @@ public class Entity {
 	//GET E SETTERS -> Sao metodos de acesso para as var privadas
 	//serve para proteger o as variaveis de alteracoes
 	
+	public void setX(int newX) {
+		this.x = newX;
+	}
+	
+	public void setY(int newY) {
+		this.y = newY;
+	}
+	
 	public int getX() {
-		return this.x;
+		return (int) this.x;
 	}
 
 	public int getY() {
-		return this.y;
+		return (int) this.y;
 	}
 	public int getWidth() {
 		return this.width;

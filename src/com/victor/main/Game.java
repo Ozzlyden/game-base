@@ -5,6 +5,8 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 //import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -17,7 +19,7 @@ import com.victor.entities.Entity;
 import com.victor.entities.Player;
 import com.victor.graficos.Spritesheet;
 
-public class Game extends Canvas implements Runnable{
+public class Game extends Canvas implements Runnable,KeyListener{
 	
 	private static final long serialVersionUID = 1L;
 	public static JFrame frame;
@@ -32,17 +34,21 @@ public class Game extends Canvas implements Runnable{
 	public List<Entity> entities;
 	public Spritesheet spritesheet;
 	
+	private Player player;
+	
 	
 	public Game() {
+		addKeyListener(this);
 		setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
 		intFrame();
 		//INICIALIZANDO OBJETOS
 		image = new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB);
 		entities = new ArrayList<Entity>();
-		spritesheet = new Spritesheet("/spritesheet.png");	//chamando o arquivo res/spritesheet.png	
+		spritesheet = new Spritesheet("/spritesheet.png");	//chamando o arquivo res/spritesheet.png
 		
-		entities.add(new Player(0, 0, 16, 16, spritesheet.getSprite(32, 0, 16, 16) ));	/*(0, 0, 16,16) eh onde o Player inicia no mapa e (32, 0, 16, 16) eh a 
+		player = new Player(0, 0, 16, 16, spritesheet.getSprite(32, 0, 16, 16) );/*(0, 0, 16,16) eh onde o Player inicia no mapa e (32, 0, 16, 16) eh a 
 		regiao em que esta a imagem do player na spritesheet*/
+		entities.add(player);
 	}
 	
 	public void intFrame() {
@@ -97,7 +103,7 @@ public class Game extends Canvas implements Runnable{
 		}
 		Graphics g = image.getGraphics();
 		
-		g.setColor(new Color (0, 0, 0));
+		g.setColor(new Color (0, 255, 0));
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
 		//Render do game
@@ -146,5 +152,43 @@ public class Game extends Canvas implements Runnable{
 		stop();
 	}
 	
+	//TECLADO
+	
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
+			player.right = true;	
+		}else if (e.getKeyCode() == KeyEvent.VK_LEFT  || e.getKeyCode() == KeyEvent.VK_A){
+			player.left = true;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
+			player.up = true;
+		}else if (e.getKeyCode() == KeyEvent.VK_DOWN  || e.getKeyCode() == KeyEvent.VK_S){
+			player.down = true;
+		}
+		
+		
+		
+	}
+	
+	@Override
+	public void keyReleased(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
+			player.right = false;			
+		}else if (e.getKeyCode() == KeyEvent.VK_LEFT  || e.getKeyCode() == KeyEvent.VK_A){
+			player.left = false;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
+			player.up = false;
+		}else if (e.getKeyCode() == KeyEvent.VK_DOWN  || e.getKeyCode() == KeyEvent.VK_S){
+			player.down = false;
+		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		
+		
+	}
 	
 }
