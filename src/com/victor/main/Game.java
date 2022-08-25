@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import com.victor.entities.Entity;
 import com.victor.entities.Player;
 import com.victor.graficos.Spritesheet;
+import com.victor.world.World;
 
 public class Game extends Canvas implements Runnable,KeyListener{
 	
@@ -34,6 +35,8 @@ public class Game extends Canvas implements Runnable,KeyListener{
 	public List<Entity> entities;
 	public static Spritesheet spritesheet;
 	
+	public static World world;
+	
 	private Player player;
 	
 	
@@ -42,6 +45,7 @@ public class Game extends Canvas implements Runnable,KeyListener{
 		setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
 		intFrame();
 		//INICIALIZANDO OBJETOS
+		world = new World("/map.png");
 		image = new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB);
 		entities = new ArrayList<Entity>();
 		spritesheet = new Spritesheet("/spritesheet.png");	//chamando o arquivo res/spritesheet.png
