@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import com.victor.main.Game;
+import com.victor.world.Camera;
 
 public class Entity {
 	
@@ -58,6 +59,6 @@ public class Entity {
 	}
 	
 	public void render (Graphics g) {
-		g.drawImage(sprite, this.getX(),this.getY(),this.getWidth(),this.getHeight(), null);
+		g.drawImage(sprite, this.getX() - Camera.x,this.getY() - Camera.y,this.getWidth(),this.getHeight(), null);
 	}
 }
