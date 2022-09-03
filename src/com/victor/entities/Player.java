@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 
 import com.victor.main.Game;
 import com.victor.world.Camera;
+import com.victor.world.World;
 
 public class Player extends Entity {
 	
@@ -94,9 +95,9 @@ public class Player extends Entity {
 				
 			}
 			
-			//LOGICA PARA A CAMERA SEGUIR
-			Camera.x = this.getX() - (Game.WIDTH/2);
-			Camera.y = this.getY() - (Game.HEIGHT/2)  ;
+			//LOGICA PARA A CAMERA SEGUIR e NAO MOSTRAR AS AREAS FORA DO MAPA
+			Camera.x = Camera.clamp(this.getX() - (Game.WIDTH/2), 0, World.WIDTH * 16 - Game.WIDTH);
+			Camera.y = Camera.clamp(this.getY() - (Game.HEIGHT/2), 0, World.HEIGHT * 16 - Game.HEIGHT);
 	}
 	
 	public void render (Graphics g) {
