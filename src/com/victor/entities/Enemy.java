@@ -16,6 +16,7 @@ public class Enemy extends Entity{
 	
 	//LOGICA I.A
 	public void tick() {
+		if(Game.rand.nextInt(100) < 45) {
 		if((int)x < Game.player.getX() && World.isFree((int)(x + speed), this.getY())) {
 			x+=speed;
 		}
@@ -29,6 +30,6 @@ public class Enemy extends Entity{
 			y-=speed;
 		}
 	}
-	
+	}
 
 }

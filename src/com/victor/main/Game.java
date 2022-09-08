@@ -12,6 +12,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JFrame;
 
@@ -39,10 +40,12 @@ public class Game extends Canvas implements Runnable,KeyListener{
 	
 	public static Player player;
 	
+	public static Random rand;
 	
 	public Game() {
-		//JANELA
+		rand = new Random();
 		addKeyListener(this);
+		//JANELA
 		setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
 		intFrame();
 		
