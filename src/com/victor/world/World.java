@@ -16,8 +16,9 @@ import com.victor.main.Game;
 public class World {
 	
 	//Array Simple -> []  e tem ArrayMultiDimencional -> [] [] 
-	private Tile[] tiles;
+	public static Tile[] tiles;
 	public static int WIDTH, HEIGHT;
+	public static final int TILE_SIZE = 16;
 	
 	
 	public World (String path){
@@ -55,7 +56,7 @@ public class World {
 						tiles[xx + (yy * WIDTH) ] = new FloorTile(xx * 16, yy * 16, Tile.TILE_FLOOR);
 					}else if (pixelAtual == 0xFFFFFFFF) {
 						//Wall
-						tiles[xx + (yy * WIDTH) ] = new FloorTile(xx * 16, yy * 16, Tile.TILE_WALL);
+						tiles[xx + (yy * WIDTH) ] = new WallTile(xx * 16, yy * 16, Tile.TILE_WALL);
 					}else if (pixelAtual == 0xFF0026FF) {
 						//Player
 						Game.player.setX(xx*16);	//Localizacao do player no map 
@@ -84,6 +85,28 @@ public class World {
 		}
 	}
 	
+	//METODO DE COLISOES
+	public static boolean isFree(int xnext, int ynext) {
+		//LOGICA DE COLOSIAO
+		int x1 = xnext / TILE_SIZE;
+		int y1 = ynext / TILE_SIZE;
+		//TILE_SIZE eh o tamanho da mascara em px
+		
+		int x2 =( xnext+TILE_SIZE-1) / TILE_SIZE;
+		int y2 = ynext / TILE_SIZE;
+		
+		int x3 = xnext / TILE_SIZE;
+		int y3 =(ynext+TILE_SIZE-1)  / TILE_SIZE;
+		
+		int x4 = (xnext+TILE_SIZE-1) / TILE_SIZE;
+		int y4 = (ynext+TILE_SIZE-1)  / TILE_SIZE;
+		
+		// ! serve para negar o dado	
+		return ! (tiles[x1 + (y1 * World.WIDTH)]instanceof WallTile ||
+				(tiles[x2 + (y2 * World.WIDTH)]instanceof WallTile) ||
+				(tiles[x3 + (y3 * World.WIDTH)]instanceof WallTile) ||
+				(tiles[x4 + (y4 * World.WIDTH)]instanceof WallTile));	
+	}
 
 	public void render (Graphics g) {
 		
