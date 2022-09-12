@@ -11,7 +11,8 @@ public class Entity {
 	public static BufferedImage LIFEPACK_EN = Game.spritesheet.getSprite(0, 16, 16, 16);
 	public static BufferedImage WEAPON_EN = Game.spritesheet.getSprite(16, 16, 16, 16);
 	public static BufferedImage BULLET_EN = Game.spritesheet.getSprite(0, 32, 16, 16);
-	public static BufferedImage ENEMY_EN = Game.spritesheet.getSprite(16, 32, 16, 16);
+	public static BufferedImage ENEMY1_EN = Game.spritesheet.getSprite(16, 32, 16, 16);
+	public static BufferedImage ENEMY2_EN = Game.spritesheet.getSprite(0, 48, 16, 16);
 
 
 	protected double x;

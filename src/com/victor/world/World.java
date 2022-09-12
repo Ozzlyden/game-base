@@ -7,7 +7,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import com.victor.entities.Bullet;
-import com.victor.entities.Enemy;
+import com.victor.entities.Enemy1;
+import com.victor.entities.Enemy2;
 import com.victor.entities.Entity;
 import com.victor.entities.Lifepack;
 import com.victor.entities.Weapon;
@@ -36,7 +37,8 @@ public class World {
 			
 			/*	FUNCAO DE CADA COR
 			 * Azul = player (0xFF0026FF)
-			 * vermelho = inimigo (0xFFFF0000)
+			 * vermelho = inimigo 1 (0xFFFF0000)
+			 * vermelho = inimigo 2 (0xFFFF3F4C)
 			 * preto = chão (0xFF000000)
 			 * Branco = parede (0xFFFFFFFF)
 			 * laranja = arma  (0xFF7F3300)
@@ -64,10 +66,15 @@ public class World {
 					}
 					else if(pixelAtual == 0xFFFF0000) {
 						//Enemy
-						Enemy en = new Enemy(xx*16, yy*16, 16, 16, Entity.ENEMY_EN); 
-						Game.entities.add(en);
-						Game.enemies.add(en);
-						
+						Enemy1 en1 = new Enemy1(xx*16, yy*16, 16, 16, Entity.ENEMY1_EN); 
+						Game.entities.add(en1);
+						Game.enemies1.add(en1);
+					}
+					else if(pixelAtual == 0xFFFF3F4C) {
+						//Enemy 2
+						Enemy2 en2 = new Enemy2(xx*16, yy*16, 16, 16, Entity.ENEMY2_EN); 
+						Game.entities.add(en2);
+						Game.enemies2.add(en2);
 					}else if(pixelAtual == 0xFF7F3300) {
 						//Weapon
 						Game.entities.add(new Weapon(xx*16, yy*16, 16, 16, Entity.WEAPON_EN));
