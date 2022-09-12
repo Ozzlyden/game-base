@@ -1,5 +1,6 @@
 package com.victor.entities;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -13,7 +14,7 @@ public class Enemy1 extends Entity{
 	private double speed = 0.6;
 	
 	//var para as dimensoes da mascara de colisao
-	private int maskx = 8, masky = 8, maskw = 5, maskh = 5;
+	private int maskx = 2, masky = 3, maskw = 10, maskh = 10;
 	
 	private int frames = 0, maxFrames = 15, index = 0, maxIndex = 1;
 	
@@ -34,6 +35,9 @@ public class Enemy1 extends Entity{
 	//LOGICA I.A
 	public void tick() {
 		
+		if(this.isCollidingWithPlayer() == false) {
+			
+		
 		if((int)x < Game.player.getX() && World.isFree((int)(x + speed), this.getY())
 				&& !isColliding((int)(x + speed), this.getY())) {
 			x+=speed;
@@ -50,6 +54,13 @@ public class Enemy1 extends Entity{
 				&& !isColliding(this.getX(), (int) (y - speed))) {
 			y-=speed;
 		}
+		}else {
+			//estamos colidindo
+			if(Game.rand.nextInt(100) < 10) {
+			Game.player.life--;
+			System.out.println("Vida: " + Game.player.life);
+			}
+		}
 		
 		//LOGICA ANIMACAO
 			
@@ -60,8 +71,16 @@ public class Enemy1 extends Entity{
 				if(index > maxIndex)
 					index = 0;
 			}
+		
 			
 		}
+	
+	public boolean isCollidingWithPlayer() {
+		Rectangle enemyCurrent =  new Rectangle(this.getX() + maskx, this.getY() + masky, maskw, maskh);
+		Rectangle player = new Rectangle(Game.player.getX(), Game.player.getY(), 16, 16);
+		
+		return enemyCurrent.intersects(player);
+	}
 	
 	
 	public boolean isColliding(int xnext, int ynext) {
