@@ -17,7 +17,7 @@ public class Player extends Entity {
 	private int frames = 0, maxFrames =5, index = 0, maxIndex = 3;
 	private boolean moved = false;
 	
-	public int life = 100;
+	public static double life = 100, maxLife = 100;
 	
 	private BufferedImage[] frontPlayer;
 	private BufferedImage[] backPlayer;

@@ -21,6 +21,7 @@ import com.victor.entities.Enemy2;
 import com.victor.entities.Entity;
 import com.victor.entities.Player;
 import com.victor.graficos.Spritesheet;
+import com.victor.graficos.UI;
 import com.victor.world.World;
 
 public class Game extends Canvas implements Runnable,KeyListener{
@@ -47,6 +48,8 @@ public class Game extends Canvas implements Runnable,KeyListener{
 	
 	public static Random rand;
 	
+	public UI ui;
+	
 	public Game() {
 		rand = new Random();
 		addKeyListener(this);
@@ -55,6 +58,7 @@ public class Game extends Canvas implements Runnable,KeyListener{
 		intFrame();
 		
 		//INICIALIZANDO OBJETOS
+		ui = new UI();
 		image = new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB);
 		entities = new ArrayList<Entity>();
 		enemies1 = new ArrayList<Enemy1>();
@@ -128,6 +132,7 @@ public class Game extends Canvas implements Runnable,KeyListener{
 			Entity e = entities.get(i);
 			e.render(g);
 		}
+		ui.render(g);
 		
 		g.dispose();
 		g = bs.getDrawGraphics();

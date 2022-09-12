@@ -20,7 +20,6 @@ public class Enemy1 extends Entity{
 	
 	private BufferedImage[] spriteEnemy1;
 
-	
 
 	public Enemy1(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, null);
@@ -55,9 +54,12 @@ public class Enemy1 extends Entity{
 			y-=speed;
 		}
 		}else {
-			//estamos colidindo
+			//SISTEMA DE DANO
 			if(Game.rand.nextInt(100) < 10) {
-			Game.player.life--;
+			Game.player.life-=Game.rand.nextInt(3);
+			if(Game.player.life <= 0) {
+				//Game over
+			}
 			System.out.println("Vida: " + Game.player.life);
 			}
 		}
