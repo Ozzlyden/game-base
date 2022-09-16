@@ -18,6 +18,7 @@ public class Player extends Entity {
 	private boolean moved = false;
 	
 	public static double life = 100, maxLife = 100;
+	public int ammo = 0;
 	
 	private BufferedImage[] frontPlayer;
 	private BufferedImage[] backPlayer;
@@ -97,10 +98,27 @@ public class Player extends Entity {
 				
 			}
 			this.checkCollisionLifePack();
+			checkCollisionAmmo();
 			
 			//LOGICA PARA A CAMERA SEGUIR e NAO MOSTRAR AS AREAS FORA DO MAPA
 			Camera.x = Camera.clamp(this.getX() - (Game.WIDTH/2), 0, World.WIDTH * 16 - Game.WIDTH);
 			Camera.y = Camera.clamp(this.getY() - (Game.HEIGHT/2), 0, World.HEIGHT * 16 - Game.HEIGHT);
+	}
+	
+	public void checkCollisionAmmo() {
+		//LOGICA DE PEGAR AMMO
+		for (int i = 0; i < Game.entities.size(); i++) {
+			Entity atual = Game.entities.get(i);
+			if(atual instanceof Bullet) {
+				if(Entity.isColliding(this, atual)) {
+					ammo+=10;
+					System.out.println("Muincao atual:" + ammo);
+					Game.entities.remove(atual);
+					return;
+				}
+			}
+			
+		}
 	}
 	
 	public void checkCollisionLifePack() {
