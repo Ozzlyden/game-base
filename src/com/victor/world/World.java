@@ -77,13 +77,19 @@ public class World {
 						Game.enemies2.add(en2);
 					}else if(pixelAtual == 0xFF7F3300) {
 						//Weapon
-						Game.entities.add(new Weapon(xx*16, yy*16, 16, 16, Entity.WEAPON_EN));
+						Weapon weapon = new Weapon(xx*16, yy*16, 16, 16, Entity.WEAPON_EN);
+						weapon.setMask(8, 8, 8, 8);	//Tamanho mascara
+						Game.entities.add(weapon);
 					}else if(pixelAtual ==  0xFFFF7F7F) {
 						//Life Pack
-						Game.entities.add(new Lifepack (xx*16, yy*16, 16, 16, Entity.LIFEPACK_EN));
+						Lifepack pack = new Lifepack(xx*16, yy*16, 16, 16, Entity.LIFEPACK_EN);
+						pack.setMask(8, 8, 8, 8);
+						Game.entities.add(pack);
 					}else if (pixelAtual == 0xFFFFD800) {
 						//Bullet
-						Game.entities.add(new Bullet (xx*16, yy*16, 16, 16, Entity.BULLET_EN));
+						Bullet bullet = new Bullet(xx*16, yy*16, 16, 16, Entity.BULLET_EN);
+						bullet.setMask(8, 8, 8, 8);
+						Game.entities.add(bullet);
 
 					}
 					
