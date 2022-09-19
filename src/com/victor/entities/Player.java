@@ -19,7 +19,7 @@ public class Player extends Entity {
 	private int frames = 0, maxFrames =5, index = 0, maxIndex = 3;
 	private boolean moved = false;
 	
-	public static double life = 100, maxLife = 100;
+	public double life = 100, maxLife = 100;
 	public int ammo = 0;
 	
 	private BufferedImage[] frontPlayer;
@@ -34,6 +34,8 @@ public class Player extends Entity {
 	public boolean isDamaged = false;
 	
 	private int damageFrames = 0;
+	
+	private boolean arma = false;
 	
 
 	public Player(int x, int y, int width, int height, BufferedImage sprite) {
@@ -109,6 +111,7 @@ public class Player extends Entity {
 			}
 			this.checkCollisionLifePack();
 			checkCollisionAmmo();
+			checkCollisionGun();
 			
 			if (isDamaged){
 				this.damageFrames++;
@@ -120,16 +123,18 @@ public class Player extends Entity {
 			
 			if(life <= 0) {
 				//Game over
+				/*
 				Game.entities = new ArrayList<Entity>();
 				Game.enemies1 = new ArrayList<Enemy1>();
 				Game.enemies2 = new ArrayList<Enemy2>();
 				Game.spritesheet = new Spritesheet("/spritesheet.png");	//chamando o arquivo res/spritesheet.png
-				Game.player = new Player(0, 0, 16, 16, Game.spritesheet.getSprite(32, 0, 16, 16) );/*(0, 0, 16,16) eh onde o Player inicia no mapa e (32, 0, 16, 16) eh a 
-				regiao em que esta a imagem do player na spritesheet*/
+				Game.player = new Player(0, 0, 16, 16, Game.spritesheet.getSprite(32, 0, 16, 16) );
 				Game.entities.add(Game.player);
 				Game.world = new World("/map.png");
 				return;
 				//System.exit(1);
+				
+				*/
 			}
 			
 			//LOGICA PARA A CAMERA SEGUIR e NAO MOSTRAR AS AREAS FORA DO MAPA
@@ -145,6 +150,22 @@ public class Player extends Entity {
 				if(Entity.isColliding(this, atual)) {
 					ammo+=10;
 					System.out.println("Muincao atual:" + ammo);
+					Game.entities.remove(atual);
+					return;
+				}
+			}
+			
+		}
+	}
+	
+	public void checkCollisionGun() {
+		//LOGICA DE PEGAR AMMO
+		for (int i = 0; i < Game.entities.size(); i++) {
+			Entity atual = Game.entities.get(i);
+			if(atual instanceof Weapon) {
+				if(Entity.isColliding(this, atual)) {
+					arma = true;
+					//System.out.println("Pegou a arma");
 					Game.entities.remove(atual);
 					return;
 				}
@@ -179,8 +200,16 @@ public class Player extends Entity {
 		if(!isDamaged ) {
 			if(dir == right_dir) {
 				g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				if(arma) {
+					//render arma direita
+					g.drawImage(GUN_RIGHT, this.getX() + 6 - Camera.x, this.getY() +2 - Camera.y, null);
+				}
 			}else if (dir == left_dir) {
 				g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				if(arma) {
+					//render arma oara esquerda
+					g.drawImage(GUN_LEFT, this.getX() - 6 - Camera.x, this.getY() + 2  - Camera.y, null);
+				}
 			}
 		}else {
 			g.drawImage(playerDamage, this.getX() -  Camera.x, this.getY() - Camera.y, null);
