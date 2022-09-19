@@ -2,7 +2,9 @@ package com.victor.entities;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
+import com.victor.graficos.Spritesheet;
 import com.victor.main.Game;
 import com.victor.world.Camera;
 import com.victor.world.World;
@@ -27,6 +29,12 @@ public class Player extends Entity {
 	private BufferedImage[] upPlayer;
 	private BufferedImage[] downPlayer;
 	
+	private BufferedImage playerDamage;
+	
+	public boolean isDamaged = false;
+	
+	private int damageFrames = 0;
+	
 
 	public Player(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, sprite);
@@ -38,6 +46,8 @@ public class Player extends Entity {
 		leftPlayer = new BufferedImage[4];
 		upPlayer = new BufferedImage[2];
 		downPlayer = new BufferedImage[2];
+		
+		playerDamage = Game.spritesheet.getSprite(80, 33, 16, 16);
 		
 		
 		//SPRITESHEET
@@ -100,6 +110,28 @@ public class Player extends Entity {
 			this.checkCollisionLifePack();
 			checkCollisionAmmo();
 			
+			if (isDamaged){
+				this.damageFrames++;
+				if(this.damageFrames == 8) {
+					this.damageFrames = 0;
+					isDamaged = false;
+				}
+			}
+			
+			if(life <= 0) {
+				//Game over
+				Game.entities = new ArrayList<Entity>();
+				Game.enemies1 = new ArrayList<Enemy1>();
+				Game.enemies2 = new ArrayList<Enemy2>();
+				Game.spritesheet = new Spritesheet("/spritesheet.png");	//chamando o arquivo res/spritesheet.png
+				Game.player = new Player(0, 0, 16, 16, Game.spritesheet.getSprite(32, 0, 16, 16) );/*(0, 0, 16,16) eh onde o Player inicia no mapa e (32, 0, 16, 16) eh a 
+				regiao em que esta a imagem do player na spritesheet*/
+				Game.entities.add(Game.player);
+				Game.world = new World("/map.png");
+				return;
+				//System.exit(1);
+			}
+			
 			//LOGICA PARA A CAMERA SEGUIR e NAO MOSTRAR AS AREAS FORA DO MAPA
 			Camera.x = Camera.clamp(this.getX() - (Game.WIDTH/2), 0, World.WIDTH * 16 - Game.WIDTH);
 			Camera.y = Camera.clamp(this.getY() - (Game.HEIGHT/2), 0, World.HEIGHT * 16 - Game.HEIGHT);
@@ -144,13 +176,16 @@ public class Player extends Entity {
 	public void render (Graphics g) {
 		
 		//LOGICA ANIMACAO
-		
-		
-		if(dir == right_dir) {
-			g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-		}else if (dir == left_dir) {
-			g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+		if(!isDamaged ) {
+			if(dir == right_dir) {
+				g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+			}else if (dir == left_dir) {
+				g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+			}
+		}else {
+			g.drawImage(playerDamage, this.getX() -  Camera.x, this.getY() - Camera.y, null);
 		}
+		
 		
 		/*
 		if(dir == up_dir) {

@@ -138,6 +138,7 @@ public class Game extends Canvas implements Runnable,KeyListener{
 		g.dispose();
 		g = bs.getDrawGraphics();
 		g.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
+		//UI AMMMO 
 		g.setFont(new Font("arial", Font.BOLD, 20));
 		g.setColor(Color.white);
 		g.drawString("Ammo: " + player.ammo, 590, 35);
