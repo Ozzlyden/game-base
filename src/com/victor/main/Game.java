@@ -17,6 +17,7 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 
+import com.victor.entities.BulletShoot;
 import com.victor.entities.Enemy1;
 import com.victor.entities.Enemy2;
 import com.victor.entities.Entity;
@@ -40,6 +41,7 @@ public class Game extends Canvas implements Runnable,KeyListener{
 	public static List<Entity> entities;
 	public static List<Enemy1> enemies1;
 	public static List<Enemy2> enemies2;
+	public static List<BulletShoot> bullets;
 	
 	public static Spritesheet spritesheet;
 	
@@ -64,6 +66,7 @@ public class Game extends Canvas implements Runnable,KeyListener{
 		entities = new ArrayList<Entity>();
 		enemies1 = new ArrayList<Enemy1>();
 		enemies2 = new ArrayList<Enemy2>();
+		bullets = new ArrayList<BulletShoot>();
 		spritesheet = new Spritesheet("/spritesheet.png");	//chamando o arquivo res/spritesheet.png
 		player = new Player(0, 0, 16, 16, spritesheet.getSprite(32, 0, 16, 16) );/*(0, 0, 16,16) eh onde o Player inicia no mapa e (32, 0, 16, 16) eh a 
 		regiao em que esta a imagem do player na spritesheet*/
@@ -110,6 +113,10 @@ public class Game extends Canvas implements Runnable,KeyListener{
 			Entity e = entities.get(i);
 			e.tick();
 		}
+		
+		for(int i = 0; i < bullets.size(); i++) {
+			bullets.get(i).tick();
+		}
 	} 
 	
 	
@@ -133,6 +140,10 @@ public class Game extends Canvas implements Runnable,KeyListener{
 			Entity e = entities.get(i);
 			e.render(g);
 		}
+		for(int i = 0; i < bullets.size(); i++) {
+			bullets.get(i).render(g);
+		}
+		
 		ui.render(g);
 		
 		g.dispose();
@@ -192,6 +203,9 @@ public class Game extends Canvas implements Runnable,KeyListener{
 			player.up = true;
 		}else if (e.getKeyCode() == KeyEvent.VK_DOWN  || e.getKeyCode() == KeyEvent.VK_S){
 			player.down = true;
+		}
+		if(e.getKeyCode() ==  KeyEvent.VK_X) {
+			player.shoot = true;
 		}
 		
 		

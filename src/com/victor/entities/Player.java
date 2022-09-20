@@ -37,6 +37,7 @@ public class Player extends Entity {
 	
 	private boolean arma = false;
 	
+	public boolean shoot = false;
 
 	public Player(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, sprite);
@@ -121,6 +122,27 @@ public class Player extends Entity {
 				}
 			}
 			
+			//LOGICA SISTEMA DE TIRO
+			if(shoot ) {
+				shoot = false;
+				if(arma && ammo > 0) {
+				ammo--;
+				int dx = 0;		//direcao tiro
+				int px = 0;		// Posicao do tiro
+				int py = 8;
+				if (dir == right_dir) {
+					px = 16;
+					dx = 1;
+				}else {
+					px = -6;
+					dx = -1;
+				}
+				
+				BulletShoot bullet = new BulletShoot(this.getX() + px, this.getY() + py, 3, 3, null, dx, 0);
+				Game.bullets.add(bullet);
+				}
+			}
+			
 			if(life <= 0) {
 				//Game over
 				/*
@@ -202,6 +224,7 @@ public class Player extends Entity {
 				g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 				if(arma) {
 					//render arma direita
+					//esse + 6 e + 2 -> eh a posicao da arma
 					g.drawImage(GUN_RIGHT, this.getX() + 6 - Camera.x, this.getY() +2 - Camera.y, null);
 				}
 			}else if (dir == left_dir) {
@@ -210,20 +233,16 @@ public class Player extends Entity {
 					//render arma oara esquerda
 					g.drawImage(GUN_LEFT, this.getX() - 6 - Camera.x, this.getY() + 2  - Camera.y, null);
 				}
+			}else if(dir == up_dir) {
+				g.drawImage(upPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+			}else if (dir == down_dir) {
+				g.drawImage(downPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 			}
+			
 		}else {
 			g.drawImage(playerDamage, this.getX() -  Camera.x, this.getY() - Camera.y, null);
 		}
 		
-		
-		/*
-		if(dir == up_dir) {
-			g.drawImage(upPlayer[index], this.getX(), this.getY(), null);
-		}else if (dir == down_dir) {
-			g.drawImage(downPlayer[index], this.getX(), this.getY(), null);
-		}
-		
-		*/
 	}
 	
 }
