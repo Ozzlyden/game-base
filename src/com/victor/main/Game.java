@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 //import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -24,9 +26,10 @@ import com.victor.entities.Entity;
 import com.victor.entities.Player;
 import com.victor.graficos.Spritesheet;
 import com.victor.graficos.UI;
+import com.victor.world.Camera;
 import com.victor.world.World;
 
-public class Game extends Canvas implements Runnable,KeyListener{
+public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 	
 	private static final long serialVersionUID = 1L;
 	public static JFrame frame;
@@ -56,6 +59,7 @@ public class Game extends Canvas implements Runnable,KeyListener{
 	public Game() {
 		rand = new Random();
 		addKeyListener(this);
+		addMouseListener(this);
 		//JANELA
 		setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
 		intFrame();
@@ -229,6 +233,39 @@ public class Game extends Canvas implements Runnable,KeyListener{
 	@Override
 	public void keyTyped(KeyEvent e) {
 		
+		
+	}
+
+	//MOUSE
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		player.mouseShoot = true;
+		player.mx = (e.getX() / 3);	//divide por 3 por causa da scale
+		player.my = (e.getY() / 3);
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 	

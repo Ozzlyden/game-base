@@ -9,13 +9,13 @@ import com.victor.world.Camera;
 
 public class BulletShoot extends Entity{
 	
-	private int dx;
-	private int dy;
+	private double dx;
+	private double dy;
 	private double spd = 3;
 	
 	private int life = 80, curLife = 0;
 	
-	public BulletShoot(int x, int y, int width, int height, BufferedImage sprite, int dx, int dy) {
+	public BulletShoot(int x, int y, int width, int height, BufferedImage sprite, double dx, double dy) {
 		super(x, y, width, height, sprite); 
 		this.dx = dx;
 		this.dy = dy;

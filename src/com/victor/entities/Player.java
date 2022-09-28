@@ -21,6 +21,7 @@ public class Player extends Entity {
 	
 	public double life = 100, maxLife = 100;
 	public int ammo = 0;
+	public int mx, my;	// posicao mouse x e y
 	
 	private BufferedImage[] frontPlayer;
 	private BufferedImage[] backPlayer;
@@ -37,7 +38,7 @@ public class Player extends Entity {
 	
 	private boolean arma = false;
 	
-	public boolean shoot = false;
+	public boolean shoot = false, mouseShoot = false;
 
 	public Player(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, sprite);
@@ -122,8 +123,8 @@ public class Player extends Entity {
 				}
 			}
 			
-			//LOGICA SISTEMA DE TIRO
-			if(shoot ) {
+			//LOGICA SISTEMA DE TIRO TECLADO
+			if(shoot) {
 				shoot = false;
 				if(arma && ammo > 0) {
 				ammo--;
@@ -139,6 +140,30 @@ public class Player extends Entity {
 				}
 				
 				BulletShoot bullet = new BulletShoot(this.getX() + px, this.getY() + py, 3, 3, null, dx, 0);
+				Game.bullets.add(bullet);
+				}
+			}
+			
+			//SISTEMA DE TIRO COM MOUSE
+			if (mouseShoot) {
+				mouseShoot = false;
+				if(arma && ammo > 0) {
+				ammo--;
+				//CALCULO DO ANGULO
+				double angle = Math.atan2(my - (this.getY() + 8 - Camera.y),mx - (this.getX() + 8 - Camera.x));
+				double dx = Math.cos(angle);		//direcao tiro
+				double dy = Math.sin(angle);
+				int px = 8;		// Posicao do tiro
+				int py = 8;
+				if (dir == right_dir) {
+					px = 16;
+					dx = 1;
+				}else {
+					px = -6;
+					dx = -1;
+				}
+				
+				BulletShoot bullet = new BulletShoot(this.getX() + px, this.getY() + py, 3, 3, null, dx, dy);
 				Game.bullets.add(bullet);
 				}
 			}
