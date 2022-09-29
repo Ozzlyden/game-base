@@ -168,8 +168,8 @@ public class Player extends Entity {
 				}
 			}
 			
+			//GAME OVER
 			if(life <= 0) {
-				//Game over
 				/*
 				Game.entities = new ArrayList<Entity>();
 				Game.enemies1 = new ArrayList<Enemy1>();
@@ -180,7 +180,6 @@ public class Player extends Entity {
 				Game.world = new World("/map.png");
 				return;
 				//System.exit(1);
-				
 				*/
 			}
 			
@@ -189,14 +188,15 @@ public class Player extends Entity {
 			Camera.y = Camera.clamp(this.getY() - (Game.HEIGHT/2), 0, World.HEIGHT * 16 - Game.HEIGHT);
 	}
 	
+	
+	//LOGICA DE PEGAR AMMO
 	public void checkCollisionAmmo() {
-		//LOGICA DE PEGAR AMMO
 		for (int i = 0; i < Game.entities.size(); i++) {
 			Entity atual = Game.entities.get(i);
 			if(atual instanceof Bullet) {
 				if(Entity.isColliding(this, atual)) {
-					ammo+=10;
-					System.out.println("Muincao atual:" + ammo);
+					ammo+=15;
+					//System.out.println("Muincao atual:" + ammo);
 					Game.entities.remove(atual);
 					return;
 				}
@@ -205,8 +205,8 @@ public class Player extends Entity {
 		}
 	}
 	
+	//LOGICA DE PEGAR ARMA
 	public void checkCollisionGun() {
-		//LOGICA DE PEGAR AMMO
 		for (int i = 0; i < Game.entities.size(); i++) {
 			Entity atual = Game.entities.get(i);
 			if(atual instanceof Weapon) {
@@ -221,8 +221,8 @@ public class Player extends Entity {
 		}
 	}
 	
+	//LOGICA DE PEGAR ITENS
 	public void checkCollisionLifePack() {
-		//LOGICA DE PEGAR ITENS
 		for (int i = 0; i < Game.entities.size(); i++) {
 			Entity atual = Game.entities.get(i);
 			if(atual instanceof Lifepack) {
@@ -238,7 +238,6 @@ public class Player extends Entity {
 		}
 		
 	}
-	
 	
 	
 	public void render (Graphics g) {

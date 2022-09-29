@@ -19,6 +19,8 @@ public class Enemy1 extends Entity{
 	private int frames = 0, maxFrames = 15, index = 0, maxIndex = 1;
 	
 	private BufferedImage[] spriteEnemy1;
+	
+	private int life = 4;
 
 
 	public Enemy1(int x, int y, int width, int height, BufferedImage sprite) {
@@ -77,9 +79,34 @@ public class Enemy1 extends Entity{
 					index = 0;
 			}
 		
-			
+		collidingBullet();
+		
+		if(life <= 0) {
+			destroySelf();
+			return;
+			}	
 		}
 	
+	//REMOVE
+	public void destroySelf() {
+		Game.entities.remove(this);
+	}
+	
+	//DANO BALA
+	public void collidingBullet() {
+		for (int i = 0; i < Game.bullets.size(); i++) {
+			Entity e = Game.bullets.get(i);
+			if(e instanceof BulletShoot) {
+				if(Entity.isColliding(this, e)) {
+					life--;
+					Game.bullets.remove(i);
+					return;
+				}	
+			}
+		}
+	}
+	
+	//COLISAO COM PLAYER
 	public boolean isCollidingWithPlayer() {
 		Rectangle enemyCurrent =  new Rectangle(this.getX() + maskx, this.getY() + masky, maskw, maskh);
 		Rectangle player = new Rectangle(Game.player.getX(), Game.player.getY(), 16, 16);

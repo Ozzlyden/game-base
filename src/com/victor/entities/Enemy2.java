@@ -20,6 +20,7 @@ public class Enemy2 extends Entity{
 	
 	private BufferedImage[] spriteEnemy2;
 	
+	private int life = 10;
 
 	public Enemy2(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, null);
@@ -62,21 +63,49 @@ public class Enemy2 extends Entity{
 			}
 			//System.out.println("Vida" + Game.player.life);
 			}
-		
-		//LOGICA ANIMACAO
-			
+
+			//LOGICA ANIMACAO
 			frames++;
 			if(frames == maxFrames) {
 				frames = 0;
 				index++;
 				if(index > maxIndex)
 					index = 0;
+			}			
+		}
+		
+		collidingBullet();
+				
+				if(life <= 0) {
+					destroySelf();
+					return;
+				}
+					
+				}
+			
+			//REMOVE
+			public void destroySelf() {
+				Game.entities.remove(this);
 			}
 			
-		}
+			//DANO BALA
+			public void collidingBullet() {
+				for (int i = 0; i < Game.bullets.size(); i++) {
+					Entity e = Game.bullets.get(i);
+					if(e instanceof BulletShoot) {
+						if(Entity.isColliding(this, e)) {
+							life--;
+							Game.bullets.remove(i);
+							return;
+						}
+						
+					}
+				}
+			}
 			
-		}
+
 	
+	//COLISAO COM PLAYER
 	public boolean isCollidingWithPlayer() {
 		Rectangle enemyCurrent =  new Rectangle(this.getX() + maskx, this.getY() + masky, maskw, maskh);
 		Rectangle player = new Rectangle(Game.player.getX(), Game.player.getY(), 16, 16);
