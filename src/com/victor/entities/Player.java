@@ -115,6 +115,7 @@ public class Player extends Entity {
 			checkCollisionAmmo();
 			checkCollisionGun();
 			
+			//FEEDBACK DANO
 			if (isDamaged){
 				this.damageFrames++;
 				if(this.damageFrames == 8) {

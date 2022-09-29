@@ -21,6 +21,10 @@ public class Enemy2 extends Entity{
 	private BufferedImage[] spriteEnemy2;
 	
 	private int life = 10;
+	
+	public boolean isDamaged = false;
+	private int damageFrames = 8, damageCurrent = 0;
+	
 
 	public Enemy2(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, null);
@@ -63,16 +67,16 @@ public class Enemy2 extends Entity{
 			}
 			//System.out.println("Vida" + Game.player.life);
 			}
+		}
 
 			//LOGICA ANIMACAO
 			frames++;
 			if(frames == maxFrames) {
-				frames = 0;
-				index++;
-				if(index > maxIndex)
-					index = 0;
-			}			
-		}
+					frames = 0;
+					index++;
+					if(index > maxIndex)
+						index = 0;
+				}	
 		
 		collidingBullet();
 				
@@ -80,8 +84,17 @@ public class Enemy2 extends Entity{
 					destroySelf();
 					return;
 				}
+				
+				//FEEDBACK DANO
+				if(isDamaged) {
+					this.damageCurrent++;
+					if(this.damageCurrent == this.damageFrames) {
+						this.damageCurrent = 0;
+						this.isDamaged = false;
+					}
+				}	
 					
-				}
+		}
 			
 			//REMOVE
 			public void destroySelf() {
@@ -94,6 +107,7 @@ public class Enemy2 extends Entity{
 					Entity e = Game.bullets.get(i);
 					if(e instanceof BulletShoot) {
 						if(Entity.isColliding(this, e)) {
+							isDamaged = true;
 							life--;
 							Game.bullets.remove(i);
 							return;
@@ -132,13 +146,15 @@ public class Enemy2 extends Entity{
 	}
 	
 	public void render(Graphics g) {
-		g.drawImage(spriteEnemy2[index],this.getX() - Camera.x, this.getY() - Camera.y, null);
+		if(!isDamaged)
+			g.drawImage(spriteEnemy2[index],this.getX() - Camera.x, this.getY() - Camera.y, null);
+			//g.drawImage(spriteEnemy2[index],this.getX() - Camera.x, this.getY() - Camera.y, null);
+		else 
+			g.drawImage(Entity.ENEMY2_FEEDBACK,this.getX() - Camera.x, this.getY() - Camera.y, null);
 		
-		//DEBUG  MASK
-		//g.setColor(Color.BLUE);
-		//g.fillRect(getX() + maskx - Camera.x, getY() + masky - Camera.y, maskw, maskh);
+			//DEBUG  MASK
+			//g.setColor(Color.BLUE);
+			//g.fillRect(getX() + maskx - Camera.x, getY() + masky - Camera.y, maskw, maskh);
 	}
-	
-	
 		
 }

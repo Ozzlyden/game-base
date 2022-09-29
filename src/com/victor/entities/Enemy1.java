@@ -21,6 +21,9 @@ public class Enemy1 extends Entity{
 	private BufferedImage[] spriteEnemy1;
 	
 	private int life = 4;
+	
+	public boolean isDamaged = false;
+	private int damageFrames = 8, damageCurrent = 0;
 
 
 	public Enemy1(int x, int y, int width, int height, BufferedImage sprite) {
@@ -70,9 +73,8 @@ public class Enemy1 extends Entity{
 		}
 		
 		//LOGICA ANIMACAO
-			
-			frames++;
-			if(frames == maxFrames) {
+		frames++;
+		if(frames == maxFrames) {
 				frames = 0;
 				index++;
 				if(index > maxIndex)
@@ -85,7 +87,16 @@ public class Enemy1 extends Entity{
 			destroySelf();
 			return;
 			}	
-		}
+		
+		//FEEDBACK DANO
+		if(isDamaged) {
+			this.damageCurrent++;
+			if(this.damageCurrent == this.damageFrames) {
+				this.damageCurrent = 0;
+				this.isDamaged = false;
+			}
+		}	
+	}
 	
 	//REMOVE
 	public void destroySelf() {
@@ -98,6 +109,7 @@ public class Enemy1 extends Entity{
 			Entity e = Game.bullets.get(i);
 			if(e instanceof BulletShoot) {
 				if(Entity.isColliding(this, e)) {
+					isDamaged = true;
 					life--;
 					Game.bullets.remove(i);
 					return;
@@ -133,9 +145,11 @@ public class Enemy1 extends Entity{
 	}
 	
 	public void render(Graphics g) {
-		g.drawImage(spriteEnemy1[index],this.getX() - Camera.x, this.getY() - Camera.y, null);
-		//g.drawImage(spriteEnemy2[index],this.getX() - Camera.x, this.getY() - Camera.y, null);
-		
+		if(!isDamaged)
+			g.drawImage(spriteEnemy1[index],this.getX() - Camera.x, this.getY() - Camera.y, null);
+			//g.drawImage(spriteEnemy2[index],this.getX() - Camera.x, this.getY() - Camera.y, null);
+		else 
+			g.drawImage(Entity.ENEMY1_FEEDBACK,this.getX() - Camera.x, this.getY() - Camera.y, null);
 		//DEBUG  MASK
 		//g.setColor(Color.BLUE);
 		//g.fillRect(getX() + maskx - Camera.x, getY() + masky - Camera.y, maskw, maskh);
