@@ -100,6 +100,7 @@ public class Enemy1 extends Entity{
 	
 	//REMOVE
 	public void destroySelf() {
+		Game.enemies1.remove(this);
 		Game.entities.remove(this);
 	}
 	

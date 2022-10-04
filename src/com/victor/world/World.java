@@ -3,6 +3,7 @@ package com.victor.world;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -11,7 +12,9 @@ import com.victor.entities.Enemy1;
 import com.victor.entities.Enemy2;
 import com.victor.entities.Entity;
 import com.victor.entities.Lifepack;
+import com.victor.entities.Player;
 import com.victor.entities.Weapon;
+import com.victor.graficos.Spritesheet;
 import com.victor.main.Game;
 
 public class World {
@@ -122,6 +125,21 @@ public class World {
 				(tiles[x2 + (y2 * World.WIDTH)]instanceof WallTile) ||
 				(tiles[x3 + (y3 * World.WIDTH)]instanceof WallTile) ||
 				(tiles[x4 + (y4 * World.WIDTH)]instanceof WallTile));	
+	}
+	
+	//RESET AO PASSAR LVL
+	public static void restarGame(String level ) {
+		Game.entities.clear();
+		Game.enemies1.clear();
+		Game.enemies2.clear();
+		Game.entities = new ArrayList<Entity>();
+		Game.enemies1 = new ArrayList<Enemy1>();
+		Game.enemies2 = new ArrayList<Enemy2>();
+		Game.spritesheet = new Spritesheet("/spritesheet.png");	//chamando o arquivo res/spritesheet.png
+		Game.player = new Player(0, 0, 16, 16, Game.spritesheet.getSprite(32, 0, 16, 16) );
+		Game.entities.add(Game.player);
+		Game.world = new World("/" + level);
+		return;
 	}
 
 	public void render (Graphics g) {
