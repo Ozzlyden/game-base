@@ -59,6 +59,9 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 	public UI ui;
 	
 	public static String gameState = "NORMAL";
+	private boolean showMessageGameOver = true;
+	private int framesGameOver = 0;
+	private boolean restartGame = false;
 	
 	public Game() {
 		rand = new Random();
@@ -71,10 +74,12 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 		//INICIALIZANDO OBJETOS
 		ui = new UI();
 		image = new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB);
+		
 		entities = new ArrayList<Entity>();
 		enemies1 = new ArrayList<Enemy1>();
 		enemies2 = new ArrayList<Enemy2>();
 		bullets = new ArrayList<BulletShoot>();
+		
 		spritesheet = new Spritesheet("/spritesheet.png");	//chamando o arquivo res/spritesheet.png
 		player = new Player(0, 0, 16, 16, spritesheet.getSprite(32, 0, 16, 16) );/*(0, 0, 16,16) eh onde o Player inicia no mapa e (32, 0, 16, 16) eh a 
 		regiao em que esta a imagem do player na spritesheet*/
@@ -116,7 +121,9 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 	
 	
 	public void tick () {
-		if(gameState == "NORMAL")
+		if(gameState == "NORMAL") {
+		this.restartGame = false;
+		
 		//LOGICA PARA CRIAR ENTIDADES
 		for(int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
@@ -134,6 +141,27 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 			}
 			String newWorld = "level" + CUR_LEVEL + ".png";
 			World.restarGame(newWorld);
+		}	
+		}else if(gameState == "GAME_OVER") {
+			//ANIMCAO TEXTO
+			framesGameOver++;
+			if(this.framesGameOver == 30) {
+				this.framesGameOver = 0;
+				if(this.showMessageGameOver) 
+					this.showMessageGameOver = false;
+				else
+					this.showMessageGameOver = true;
+				
+			}
+			
+			//PRESS ENTER
+			if(restartGame) {
+				this.restartGame = false;
+				this.gameState = "NORMAL";
+				CUR_LEVEL = 1;
+				String newWorld = "level" + CUR_LEVEL + ".png";
+				World.restarGame(newWorld);
+			}
 		}
 	} 
 	
@@ -175,14 +203,17 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 		//TELA GAME OVER
 		if(gameState == "GAME_OVER") {
 			Graphics2D g2 = (Graphics2D) g;
-			g2.setColor(new Color(0,0,0,100)); //Opacidade
+			g2.setColor(new Color(0,0,0,200)); //Opacidade
 			g2.fillRect(0, 0, WIDTH * SCALE, HEIGHT * SCALE);
 			
 			g.setFont(new Font("arial", Font.BOLD, 40));
 			g.setColor(Color.white);
 			g.drawString("GAME OVER ",(WIDTH*SCALE) / 2 - 100,(HEIGHT*SCALE) / 2 - 0);
 			g.setFont(new Font("arial", Font.BOLD, 30));
-			g.drawString("PRESS ENTER PARA RESET ",(WIDTH*SCALE) / 2 - 175,(HEIGHT*SCALE) / 2 + 90);
+			
+			if(showMessageGameOver)		//animacao texto
+				g.drawString("PRESS ENTER PARA RESET ",(WIDTH*SCALE) / 2 - 175,(HEIGHT*SCALE) / 2 + 90);
+			
 		}
 		
 		bs.show();	
@@ -238,6 +269,9 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 		}
 		if(e.getKeyCode() ==  KeyEvent.VK_X) {
 			player.shoot = true;
+		}
+		if(e.getKeyCode() ==  KeyEvent.VK_ENTER) {
+			this.restartGame = true;
 		}
 		
 		
