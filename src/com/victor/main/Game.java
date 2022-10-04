@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -56,6 +57,8 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 	public static Random rand;
 	
 	public UI ui;
+	
+	public static String gameState = "NORMAL";
 	
 	public Game() {
 		rand = new Random();
@@ -113,6 +116,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 	
 	
 	public void tick () {
+		if(gameState == "NORMAL")
 		//LOGICA PARA CRIAR ENTIDADES
 		for(int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
@@ -137,7 +141,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 	public void render() {
 		BufferStrategy bs = this.getBufferStrategy();
 		
-		//Otimizacao de render, para veriguar o Buffer
+		//OTIMIZACAO DE RENDER, para veriguar o Buffer
 		if(bs == null) {
 			this.createBufferStrategy(3);
 			return;
@@ -147,8 +151,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 		g.setColor(new Color (0, 0, 0));
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
-		//Render do game
-		//Graphics2D g2 = (Graphics2D) g;
+		//RENDER DO GAME
 		world.render(g);
 		for(int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
@@ -163,10 +166,25 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 		g.dispose();
 		g = bs.getDrawGraphics();
 		g.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
+		
 		//UI AMMMO 
 		g.setFont(new Font("arial", Font.BOLD, 20));
 		g.setColor(Color.white);
 		g.drawString("Ammo: " + player.ammo, 590, 35);
+		
+		//TELA GAME OVER
+		if(gameState == "GAME_OVER") {
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setColor(new Color(0,0,0,100)); //Opacidade
+			g2.fillRect(0, 0, WIDTH * SCALE, HEIGHT * SCALE);
+			
+			g.setFont(new Font("arial", Font.BOLD, 40));
+			g.setColor(Color.white);
+			g.drawString("GAME OVER ",(WIDTH*SCALE) / 2 - 100,(HEIGHT*SCALE) / 2 - 0);
+			g.setFont(new Font("arial", Font.BOLD, 30));
+			g.drawString("PRESS ENTER PARA RESET ",(WIDTH*SCALE) / 2 - 175,(HEIGHT*SCALE) / 2 + 90);
+		}
+		
 		bs.show();	
 	}
 

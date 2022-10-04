@@ -171,17 +171,7 @@ public class Player extends Entity {
 			
 			//GAME OVER
 			if(life <= 0) {
-				/*
-				Game.entities = new ArrayList<Entity>();
-				Game.enemies1 = new ArrayList<Enemy1>();
-				Game.enemies2 = new ArrayList<Enemy2>();
-				Game.spritesheet = new Spritesheet("/spritesheet.png");	//chamando o arquivo res/spritesheet.png
-				Game.player = new Player(0, 0, 16, 16, Game.spritesheet.getSprite(32, 0, 16, 16) );
-				Game.entities.add(Game.player);
-				Game.world = new World("/map.png");
-				return;
-				//System.exit(1);
-				*/
+				Game.gameState = "GAME_OVER";
 			}
 			
 			//LOGICA PARA A CAMERA SEGUIR e NAO MOSTRAR AS AREAS FORA DO MAPA
