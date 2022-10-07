@@ -38,7 +38,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 	private boolean isRunning = true;
 	public static final int WIDTH = 240;
 	public static final int HEIGHT = 160;
-	private final int SCALE = 3;
+	public static final int SCALE = 3;
 	
 	private int CUR_LEVEL = 1, MAX_LEVEL = 2;
 	private BufferedImage image;
@@ -58,10 +58,12 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 	
 	public UI ui;
 	
-	public static String gameState = "NORMAL";
+	public static String gameState = "MENU";
 	private boolean showMessageGameOver = true;
 	private int framesGameOver = 0;
 	private boolean restartGame = false;
+	
+	public Menu menu;
 	
 	public Game() {
 		rand = new Random();
@@ -85,6 +87,8 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 		regiao em que esta a imagem do player na spritesheet*/
 		entities.add(player);
 		world = new World("/level1.png");
+		
+		menu = new Menu();
 	}
 	
 	public void intFrame() {
@@ -162,6 +166,8 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 				String newWorld = "level" + CUR_LEVEL + ".png";
 				World.restarGame(newWorld);
 			}
+		}else if(gameState == "MENU") {
+			menu.tick();
 		}
 	} 
 	
@@ -214,6 +220,8 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 			if(showMessageGameOver)		//animacao texto
 				g.drawString("PRESS ENTER PARA RESET ",(WIDTH*SCALE) / 2 - 175,(HEIGHT*SCALE) / 2 + 90);
 			
+		}else if(gameState == "MENU") {
+			menu.render(g);
 		}
 		
 		bs.show();	
@@ -264,8 +272,15 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 		}
 		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
 			player.up = true;
+			if(gameState == "MENU") {
+				menu.up = true;
+			}
 		}else if (e.getKeyCode() == KeyEvent.VK_DOWN  || e.getKeyCode() == KeyEvent.VK_S){
 			player.down = true;
+			
+			if(gameState == "MENU") {
+				menu.down = true;
+			}
 		}
 		if(e.getKeyCode() ==  KeyEvent.VK_X) {
 			player.shoot = true;

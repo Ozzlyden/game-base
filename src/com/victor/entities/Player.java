@@ -257,6 +257,13 @@ public class Player extends Entity {
 			
 		}else {
 			g.drawImage(playerDamage, this.getX() -  Camera.x, this.getY() - Camera.y, null);
+			if(arma) {
+				if(dir == left_dir) {
+					g.drawImage(Entity.GUN_LEFT, this.getX() - 8 - Camera.x,this.getY() - Camera.y , null);
+				}else {
+					g.drawImage(Entity.GUN_RIGHT, this.getX() + 8 - Camera.x,this.getY() - Camera.y , null);
+				}
+			}
 		}
 		
 	}
