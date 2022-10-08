@@ -174,10 +174,13 @@ public class Player extends Entity {
 				life = 0;
 				Game.gameState = "GAME_OVER";
 			}
-			
-			//LOGICA PARA A CAMERA SEGUIR e NAO MOSTRAR AS AREAS FORA DO MAPA
-			Camera.x = Camera.clamp(this.getX() - (Game.WIDTH/2), 0, World.WIDTH * 16 - Game.WIDTH);
-			Camera.y = Camera.clamp(this.getY() - (Game.HEIGHT/2), 0, World.HEIGHT * 16 - Game.HEIGHT);
+			updateCamera();
+	}
+	
+	public void updateCamera() {
+		//LOGICA PARA A CAMERA SEGUIR e NAO MOSTRAR AS AREAS FORA DO MAPA
+		Camera.x = Camera.clamp(this.getX() - (Game.WIDTH/2), 0, World.WIDTH * 16 - Game.WIDTH);
+		Camera.y = Camera.clamp(this.getY() - (Game.HEIGHT/2), 0, World.HEIGHT * 16 - Game.HEIGHT);
 	}
 	
 	

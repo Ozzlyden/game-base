@@ -61,7 +61,7 @@ public class Enemy1 extends Entity{
 		}else {
 			//SISTEMA DE DANO
 			if(Game.rand.nextInt(100) < 10) {
-			Game.player.life-=Game.rand.nextInt(3);
+			Game.player.life-=Game.rand.nextInt(10);
 			Game.player.isDamaged = true;
 			if(Game.player.life <= 0) {
 				//Game over
