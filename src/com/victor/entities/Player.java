@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import com.victor.graficos.Spritesheet;
 import com.victor.main.Game;
+import com.victor.main.Sound;
 import com.victor.world.Camera;
 import com.victor.world.World;
 
@@ -126,6 +127,7 @@ public class Player extends Entity {
 			
 			//LOGICA SISTEMA DE TIRO TECLADO
 			if(shoot) {
+				Sound.shootEffect.play();
 				shoot = false;
 				if(arma && ammo > 0) {
 				ammo--;
@@ -147,6 +149,7 @@ public class Player extends Entity {
 			
 			//SISTEMA DE TIRO COM MOUSE
 			if (mouseShoot) {
+				Sound.shootEffect.play();
 				mouseShoot = false;
 				if(arma && ammo > 0) {
 				ammo--;
@@ -177,8 +180,8 @@ public class Player extends Entity {
 			updateCamera();
 	}
 	
+	//LOGICA PARA A CAMERA SEGUIR e NAO MOSTRAR AS AREAS FORA DO MAPA
 	public void updateCamera() {
-		//LOGICA PARA A CAMERA SEGUIR e NAO MOSTRAR AS AREAS FORA DO MAPA
 		Camera.x = Camera.clamp(this.getX() - (Game.WIDTH/2), 0, World.WIDTH * 16 - Game.WIDTH);
 		Camera.y = Camera.clamp(this.getY() - (Game.HEIGHT/2), 0, World.HEIGHT * 16 - Game.HEIGHT);
 	}

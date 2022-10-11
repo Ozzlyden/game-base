@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import com.victor.main.Game;
+import com.victor.main.Sound;
 import com.victor.world.Camera;
 import com.victor.world.World;
 
@@ -59,13 +60,14 @@ public class Enemy2 extends Entity{
 		}else {
 			//SISTEMA DE DANO
 			if(Game.rand.nextInt(100) < 10) {
-			Game.player.life-=Game.rand.nextInt(15);
-			Game.player.isDamaged = true;
-			if(Game.player.life <= 0) {
-				//Game over
-				//System.exit(1);
-			}
-			//System.out.println("Vida" + Game.player.life);
+				Sound.hurtEffect.play();
+				Game.player.life-=Game.rand.nextInt(15);
+				Game.player.isDamaged = true;
+					if(Game.player.life <= 0) {
+						//Game over
+						//System.exit(1);
+					}
+				//System.out.println("Vida" + Game.player.life);
 			}
 		}
 
