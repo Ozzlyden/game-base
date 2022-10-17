@@ -1,12 +1,12 @@
 package com.victor.entities;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import com.victor.graficos.Spritesheet;
 import com.victor.main.Game;
-import com.victor.main.Sound;
 import com.victor.world.Camera;
 import com.victor.world.World;
 
@@ -24,6 +24,14 @@ public class Player extends Entity {
 	public int ammo = 0;
 	public int mx, my;	// posicao mouse x e y
 	
+	//FAKE JUMP
+	public boolean jump = false;
+	public int z = 0;	//eixo z
+	public int jumpFrames = 40, jumpCur = 0;	//animacao do pulo
+	public boolean isJumping = false;
+	public int jumpSpd = 1;
+	public boolean jumpUp = false, jumpDown = false;
+	
 	private BufferedImage[] frontPlayer;
 	private BufferedImage[] backPlayer;
 	private BufferedImage[] rightPlayer;
@@ -34,11 +42,9 @@ public class Player extends Entity {
 	private BufferedImage playerDamage;
 	
 	public boolean isDamaged = false;
-	
 	private int damageFrames = 0;
 	
 	private boolean arma = false;
-	
 	public boolean shoot = false, mouseShoot = false;
 
 	public Player(int x, int y, int width, int height, BufferedImage sprite) {
@@ -79,6 +85,33 @@ public class Player extends Entity {
 	}
 
 	public void tick() {
+		//FAKE JUMP
+		if(jump) {
+			if (isJumping == false) {
+				jump = false;
+				isJumping = true;
+				jumpUp = true;
+			}
+		}
+		
+		if(isJumping == true) {
+				if(jumpUp ) {
+					jumpCur+=2;
+				}else if(jumpDown) {
+					jumpCur -=2;
+					if(jumpCur <= 0) {
+						isJumping = false;
+						jumpDown = false;
+						jumpUp = false;
+					}
+				}
+				z = jumpCur;
+				if(jumpCur >= jumpFrames ) {	//altura MAX
+					jumpUp = false;
+					jumpDown = true;
+				}	
+		}
+		
 		//LOGICA DE MOVIMENTACAO
 		moved = false;
 			if(right && World.isFree((int) (x + speed), this.getY())) {
@@ -127,7 +160,6 @@ public class Player extends Entity {
 			
 			//LOGICA SISTEMA DE TIRO TECLADO
 			if(shoot) {
-				Sound.shootEffect.play();
 				shoot = false;
 				if(arma && ammo > 0) {
 				ammo--;
@@ -149,7 +181,6 @@ public class Player extends Entity {
 			
 			//SISTEMA DE TIRO COM MOUSE
 			if (mouseShoot) {
-				Sound.shootEffect.play();
 				mouseShoot = false;
 				if(arma && ammo > 0) {
 				ammo--;
@@ -243,33 +274,37 @@ public class Player extends Entity {
 		//LOGICA ANIMACAO
 		if(!isDamaged ) {
 			if(dir == right_dir) {
-				g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y - z, null);
 				if(arma) {
 					//render arma direita
 					//esse + 6 e + 2 -> eh a posicao da arma
-					g.drawImage(GUN_RIGHT, this.getX() + 6 - Camera.x, this.getY() +2 - Camera.y, null);
+					g.drawImage(GUN_RIGHT, this.getX() + 6 - Camera.x, this.getY() +2 - Camera.y - z, null);
 				}
 			}else if (dir == left_dir) {
-				g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y - z, null);
 				if(arma) {
 					//render arma oara esquerda
-					g.drawImage(GUN_LEFT, this.getX() - 6 - Camera.x, this.getY() + 2  - Camera.y, null);
+					g.drawImage(GUN_LEFT, this.getX() - 6 - Camera.x, this.getY() + 2  - Camera.y - z, null);
 				}
 			}else if(dir == up_dir) {
-				g.drawImage(upPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				g.drawImage(upPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y - z, null);
 			}else if (dir == down_dir) {
-				g.drawImage(downPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				g.drawImage(downPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y - z, null);
 			}
 			
 		}else {
-			g.drawImage(playerDamage, this.getX() -  Camera.x, this.getY() - Camera.y, null);
+			g.drawImage(playerDamage, this.getX() -  Camera.x, this.getY() - Camera.y - z, null);
 			if(arma) {
 				if(dir == left_dir) {
-					g.drawImage(Entity.GUN_LEFT, this.getX() - 8 - Camera.x,this.getY() - Camera.y , null);
+					g.drawImage(Entity.GUN_LEFT, this.getX() - 8 - Camera.x,this.getY() - Camera.y - z , null);
 				}else {
-					g.drawImage(Entity.GUN_RIGHT, this.getX() + 8 - Camera.x,this.getY() - Camera.y , null);
+					g.drawImage(Entity.GUN_RIGHT, this.getX() + 8 - Camera.x,this.getY() - Camera.y - z, null);
 				}
 			}
+		}
+		if(isJumping) {
+			g.setColor(Color.black);
+			g.fillOval(this.getX() -  Camera.x + 4, this.getY() - Camera.y  + 10, 8, 8);
 		}
 		
 	}
