@@ -24,6 +24,14 @@ public class Enemy1 extends Entity{
 	
 	public boolean isDamaged = false;
 	private int damageFrames = 8, damageCurrent = 0;
+	
+	//FAKE JUMP
+		public boolean jump = false;
+		public int z = 0;	//eixo z, altura jump
+		public int jumpFrames = 40, jumpCur = 0;	//animacao do pulo
+		public boolean isJumping = false;
+		public int jumpSpd = 1;
+		public boolean jumpUp = false, jumpDown = false;
 
 
 	public Enemy1(int x, int y, int width, int height, BufferedImage sprite) {
@@ -42,19 +50,19 @@ public class Enemy1 extends Entity{
 		if(this.isCollidingWithPlayer() == false) {
 			
 		
-		if((int)x < Game.player.getX() && World.isFree((int)(x + speed), this.getY())
+		if((int)x < Game.player.getX() && World.isFree((int)(x + speed), this.getY(), z)
 				&& !isColliding((int)(x + speed), this.getY())) {
 			x+=speed;
 		}
-		else if((int)x > Game.player.getX() && World.isFree((int)(x - speed), this.getY())
+		else if((int)x > Game.player.getX() && World.isFree((int)(x - speed), this.getY(), z)
 				&& !isColliding((int)(x - speed), this.getY())) {
 			x-=speed;
 		}
-		if((int)y < Game.player.getY() && World.isFree(this.getX(), (int)(y + speed))
+		if((int)y < Game.player.getY() && World.isFree(this.getX(), (int)(y + speed), z)
 				&& !isColliding(this.getX(), (int)(y + speed))) {
 			y+=speed;
 		}
-		else if((int)x > Game.player.getY() && World.isFree(this.getX(), (int) (y - speed))
+		else if((int)x > Game.player.getY() && World.isFree(this.getX(), (int) (y - speed), z)
 				&& !isColliding(this.getX(), (int) (y - speed))) {
 			y-=speed;
 		}
