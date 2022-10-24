@@ -131,8 +131,8 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 			//SAVE
 			if(this.saveGame) {
 				this.saveGame = false;
-				String[] opt1 = {"level"};
-				int[] opt2 = {this.CUR_LEVEL};
+				String[] opt1 = {"level", "vida"};
+				int[] opt2 = {this.CUR_LEVEL, (int) player.life};
 				Menu.saveGame(opt1, opt2, 10);
 				System.out.print("Jogo foi salvo");
 			}

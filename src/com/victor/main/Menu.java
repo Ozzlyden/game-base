@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import com.victor.entities.Player;
 import com.victor.world.World;
 
 public class Menu {
@@ -79,6 +80,9 @@ public class Menu {
 					World.restarGame("level"+spl2[1]+".png");
 					Game.gameState = "NORMAL";
 					pause = false;
+					break;
+				case "vida":
+					Game.player.life = Integer.parseInt(spl2[1]);
 					break;
 			}
 		}
