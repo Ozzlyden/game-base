@@ -65,6 +65,8 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 	
 	public Menu menu;
 	
+	public boolean saveGame = false;
+	
 	public Game() {
 		rand = new Random();
 		addKeyListener(this);
@@ -126,6 +128,14 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 	
 	public void tick () {
 		if(gameState == "NORMAL") {
+			//SAVE
+			if(this.saveGame) {
+				this.saveGame = false;
+				String[] opt1 = {"level"};
+				int[] opt2 = {this.CUR_LEVEL};
+				Menu.saveGame(opt1, opt2, 10);
+				System.out.print("Jogo foi salvo");
+			}
 		this.restartGame = false;
 		
 		//LOGICA PARA CRIAR ENTIDADES
@@ -287,18 +297,26 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 				menu.down = true;
 			}
 		}
+		
 		if(e.getKeyCode() ==  KeyEvent.VK_X) {
 			player.shoot = true;
 		}
+		
 		if(e.getKeyCode() ==  KeyEvent.VK_ENTER) {
 			this.restartGame = true;
 			if(gameState == "MENU") {
 				menu.enter = true;
 			}
 		}
+		
 		if(e.getKeyCode() ==  KeyEvent.VK_ESCAPE) {	//ESCAOE = Esc
 			gameState = "MENU";
 			menu.pause = true;
+		}
+		
+		if(e.getKeyCode() ==  KeyEvent.VK_SPACE) {
+			if(gameState == "NORMAL")
+			this.saveGame = true;
 		}
 		
 		
