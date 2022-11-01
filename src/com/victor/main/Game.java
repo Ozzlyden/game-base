@@ -5,6 +5,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -14,6 +15,8 @@ import java.awt.event.MouseListener;
 //import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -58,6 +61,9 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 	
 	public UI ui;
 	
+	public InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream("pixelart.ttf"); 	//fomte personalizada
+	public Font newfont;
+	
 	public static String gameState = "MENU";
 	private boolean showMessageGameOver = true;
 	private int framesGameOver = 0;
@@ -89,6 +95,15 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 		regiao em que esta a imagem do player na spritesheet*/
 		entities.add(player);
 		world = new World("/level1.png");
+		
+		//Carregar fonte
+		try {
+			newfont = Font.createFont(Font.TRUETYPE_FONT, stream).deriveFont(70f); 	//tam font
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		menu = new Menu();
 	}
@@ -215,6 +230,12 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 		g.setFont(new Font("arial", Font.BOLD, 20));
 		g.setColor(Color.white);
 		g.drawString("Ammo: " + player.ammo, 590, 35);
+		
+		/*	CASO QUEIRA USAR A FONT
+		g.setFont(newfont);
+		g.setColor(Color.red);
+		g.drawString("teste de font", 250, 50);
+		*/
 		
 		//TELA GAME OVER
 		if(gameState == "GAME_OVER") {
