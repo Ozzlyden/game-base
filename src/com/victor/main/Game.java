@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 //import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -33,7 +34,7 @@ import com.victor.graficos.UI;
 import com.victor.world.Camera;
 import com.victor.world.World;
 
-public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
+public class Game extends Canvas implements Runnable,KeyListener,MouseListener, MouseMotionListener{
 	
 	private static final long serialVersionUID = 1L;
 	public static JFrame frame;
@@ -73,10 +74,13 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 	
 	public boolean saveGame = false;
 	
+	public int mx, my;	//posicao mouse
+	
 	public Game() {
 		rand = new Random();
 		addKeyListener(this);
 		addMouseListener(this);
+		addMouseMotionListener(this);
 		//JANELA
 		setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
 		intFrame();
@@ -255,6 +259,15 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 			menu.render(g);
 		}
 		
+		/*
+		//EXEMPLO ROTACIONAMENTO MOUSE
+		Graphics2D g2 = (Graphics2D) g;
+		double angleMouse = Math.atan2(my - 200+25, mx - 200+25);
+		g2.rotate(angleMouse, 200+25, 200+25);	//para fica no meio do retangulo (50 por 50)
+		g.setColor(Color.blue);
+		g.fillRect(200, 200, 50, 50);
+		*/
+		
 		bs.show();	
 	}
 
@@ -394,6 +407,19 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		this.mx = e.getX();
+		this.my = e.getY();
 		
 	}
 	
