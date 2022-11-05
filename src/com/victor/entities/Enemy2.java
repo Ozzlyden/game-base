@@ -38,6 +38,8 @@ public class Enemy2 extends Entity{
 	//LOGICA I.A
 	public void tick() {
 		
+		if(this.calculateDistance(this.getX(), this.getY(), Game.player.getX(), Game.player.getY()) < 200) {	// 200 eh distancia de avistamento 
+		
 		if(this.isCollidingWithPlayer() == false) {
 		
 		if((int)x < Game.player.getX() /*&& World.isFree((int)(x + speed), this.getY())
@@ -66,7 +68,11 @@ public class Enemy2 extends Entity{
 						//System.exit(1);
 					}
 				//System.out.println("Vida" + Game.player.life);
+				}
 			}
+		}else { //EM QUANTO NO VIU O PLAYER
+			
+			
 		}
 
 			//LOGICA ANIMACAO

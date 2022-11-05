@@ -82,6 +82,13 @@ public class Entity {
 		
 	}
 	
+	//METODO PARA CALCULAR DISTANCIA ENTRE ENTITIES
+	public double calculateDistance(int x1, int y1, int x2, int y2) {
+		
+		//retorna a distancia usando angulos para um direcao
+		return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));	//retorna angulos	
+	}
+	
 	public static boolean isColliding(Entity e1,Entity e2) {
 		Rectangle e1Mask = new Rectangle(e1.getX() + e1.maskx, e1.getY() + e1.masky, e1.mwidth, e1.mheight);
 		Rectangle e2Mask = new Rectangle(e2.getX() + e2.maskx, e2.getY() + e2.masky, e2.mwidth, e2.mheight);

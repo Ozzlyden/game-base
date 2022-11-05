@@ -54,15 +54,25 @@ public class World {
 				for(int yy = 0; yy < map.getHeight(); yy++) {
 					int pixelAtual = pixels[xx + (yy * map.getWidth())];
 					
-					tiles[xx + (yy * WIDTH) ] = new FloorTile(xx * 16, yy * 16, Tile.TILE_FLOOR);
+					tiles[xx + (yy * WIDTH) ] = new FloorTile(xx * 16, yy * 16, Tile.TILE_FLOOR1);
 					
-					if(pixelAtual == 0xFF000000) {
-						//Floor 
-						tiles[xx + (yy * WIDTH) ] = new FloorTile(xx * 16, yy * 16, Tile.TILE_FLOOR);
-					}else if (pixelAtual == 0xFFFFFFFF) {
+					if(pixelAtual == 0xFF000000){
+						//Floor1 
+						tiles[xx + (yy * WIDTH) ] = new FloorTile(xx * 16, yy * 16, Tile.TILE_FLOOR1);
+					}
+					else if (pixelAtual == 0xFF000001) {
+						//Floor2
+						tiles[xx + (yy * WIDTH) ] = new FloorTile(xx * 16, yy * 16, Tile.TILE_FLOOR2);
+					}
+					else if (pixelAtual == 0xFF000002) {
+						//Floor3
+						tiles[xx + (yy * WIDTH) ] = new FloorTile(xx * 16, yy * 16, Tile.TILE_FLOOR3);
+					}
+					else if (pixelAtual == 0xFFFFFFFF) {
 						//Wall
 						tiles[xx + (yy * WIDTH) ] = new WallTile(xx * 16, yy * 16, Tile.TILE_WALL);
-					}else if (pixelAtual == 0xFF0026FF) {
+					}
+					else if (pixelAtual == 0xFF0026FF) {
 						//Player
 						Game.player.setX(xx*16);	//Localizacao do player no map 
 						Game.player.setY(yy*16);
