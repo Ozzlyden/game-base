@@ -72,6 +72,9 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	
 	public Menu menu;
 	
+	public int[] pixels;	//pixels da imagem
+	public int xx, yy;
+	
 	public boolean saveGame = false;
 	
 	public int mx, my;	//posicao mouse
@@ -88,6 +91,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		//INICIALIZANDO OBJETOS
 		ui = new UI();
 		image = new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB);
+		pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();	//Pega os pixels na var "image" para manipulacao
 		
 		entities = new ArrayList<Entity>();
 		enemies1 = new ArrayList<Enemy1>();
@@ -147,6 +151,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	
 	public void tick () {
 		if(gameState == "NORMAL") {
+			xx++;
 			//SAVE
 			if(this.saveGame) {
 				this.saveGame = false;
@@ -200,6 +205,19 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		}
 	} 
 	
+	public void drawRectangleExemple(int xoff, int yoff) {
+		//32 eh o numero de pixels, 32px por 32px
+		for(int xx = 0; xx < 32; xx ++) {
+			for(int yy = 0; yy < 32; yy++) {
+				int xOff = xx + xoff;	//posicionamento do retangulo
+				int yOff = xx + yoff;
+				if(xOff < 0 || yOff < 0 || xOff >= WIDTH || yOff >= HEIGHT)	//verificar se ta dando negativo
+					continue;
+				pixels[xOff + (yOff * WIDTH)] = 0xff0000;	//cor do retangulo
+			}
+		}
+	}
+	
 	
 	public void render() {
 		BufferStrategy bs = this.getBufferStrategy();
@@ -228,6 +246,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		
 		g.dispose();
 		g = bs.getDrawGraphics();
+		drawRectangleExemple(xx, yy);
 		g.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
 		
 		//UI AMMMO 
