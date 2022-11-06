@@ -16,12 +16,14 @@ import java.awt.event.MouseMotionListener;
 //import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import com.victor.entities.BulletShoot;
@@ -73,7 +75,9 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	public Menu menu;
 	
 	public int[] pixels;	//pixels da imagem
-	public int xx, yy;
+	//public int xx, yy;
+	public BufferedImage lightmap;
+	public int [] lightMapPixels;
 	
 	public boolean saveGame = false;
 	
@@ -91,6 +95,13 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		//INICIALIZANDO OBJETOS
 		ui = new UI();
 		image = new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB);
+		try {
+			lightmap = ImageIO.read(getClass().getResource("/lightmap.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		lightMapPixels = new int[lightmap.getWidth() * lightmap.getHeight()];
+		lightmap.getRGB(0, 0, lightmap.getWidth(),lightmap.getHeight(), lightMapPixels, 0, lightmap.getWidth());
 		pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();	//Pega os pixels na var "image" para manipulacao
 		
 		entities = new ArrayList<Entity>();
@@ -151,7 +162,8 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	
 	public void tick () {
 		if(gameState == "NORMAL") {
-			xx++;
+			//xx++;
+			
 			//SAVE
 			if(this.saveGame) {
 				this.saveGame = false;
@@ -205,6 +217,8 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		}
 	} 
 	
+	/*
+	//EXEMPLO DE MANIPULACAO DE PIXELS
 	public void drawRectangleExemple(int xoff, int yoff) {
 		//32 eh o numero de pixels, 32px por 32px
 		for(int xx = 0; xx < 32; xx ++) {
@@ -217,6 +231,19 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 			}
 		}
 	}
+	*/
+	
+	
+	public void applyLight() {
+		for(int xx = 0; xx < Game.WIDTH; xx++) {
+			for (int yy = 0; yy < Game.HEIGHT; yy ++) {
+				if(lightMapPixels[xx + (yy * Game.WIDTH)] == 0xffffffff) {
+					pixels[xx + (yy * Game.WIDTH)] =0;
+				}
+			}
+		}
+	}
+	
 	
 	
 	public void render() {
@@ -242,11 +269,12 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 			bullets.get(i).render(g);
 		}
 		
+		applyLight(); 	//efeito de luz
 		ui.render(g);
 		
 		g.dispose();
 		g = bs.getDrawGraphics();
-		drawRectangleExemple(xx, yy);
+		//drawRectangleExemple(xx, yy);
 		g.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
 		
 		//UI AMMMO 
@@ -254,7 +282,8 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		g.setColor(Color.white);
 		g.drawString("Ammo: " + player.ammo, 590, 35);
 		
-		/*	CASO QUEIRA USAR A FONT
+		/*	
+		//CASO QUEIRA USAR A FONT
 		g.setFont(newfont);
 		g.setColor(Color.red);
 		g.drawString("teste de font", 250, 50);
