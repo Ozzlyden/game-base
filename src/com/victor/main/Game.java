@@ -76,7 +76,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	
 	public int[] pixels;	//pixels da imagem
 	//public int xx, yy;
-	public BufferedImage lightmap;
+	public BufferedImage lightmap;	
 	public int [] lightMapPixels;
 	
 	public boolean saveGame = false;
@@ -95,6 +95,9 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		//INICIALIZANDO OBJETOS
 		ui = new UI();
 		image = new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB);
+		
+		
+		/*
 		try {
 			lightmap = ImageIO.read(getClass().getResource("/lightmap.png"));
 		} catch (IOException e) {
@@ -103,6 +106,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		lightMapPixels = new int[lightmap.getWidth() * lightmap.getHeight()];
 		lightmap.getRGB(0, 0, lightmap.getWidth(),lightmap.getHeight(), lightMapPixels, 0, lightmap.getWidth());
 		pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();	//Pega os pixels na var "image" para manipulacao
+		*/
 		
 		entities = new ArrayList<Entity>();
 		enemies1 = new ArrayList<Enemy1>();
@@ -217,7 +221,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		}
 	} 
 	
-	/*
+
 	//EXEMPLO DE MANIPULACAO DE PIXELS
 	public void drawRectangleExemple(int xoff, int yoff) {
 		//32 eh o numero de pixels, 32px por 32px
@@ -231,9 +235,9 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 			}
 		}
 	}
-	*/
+
 	
-	
+	//SISTEMA DE ILUMINACAO
 	public void applyLight() {
 		for(int xx = 0; xx < Game.WIDTH; xx++) {
 			for (int yy = 0; yy < Game.HEIGHT; yy ++) {
@@ -269,7 +273,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 			bullets.get(i).render(g);
 		}
 		
-		applyLight(); 	//efeito de luz
+		//applyLight(); 	//efeito de luz
 		ui.render(g);
 		
 		g.dispose();
