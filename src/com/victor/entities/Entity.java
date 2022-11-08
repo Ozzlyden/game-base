@@ -4,9 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import com.victor.main.Game;
 import com.victor.world.Camera;
+import com.victor.world.Node;
+import com.victor.world.Vector2i;
 
 public class Entity {
 	
@@ -15,8 +18,10 @@ public class Entity {
 	public static BufferedImage BULLET_EN = Game.spritesheet.getSprite(0, 32, 16, 16);
 	public static BufferedImage ENEMY1_EN = Game.spritesheet.getSprite(16, 32, 16, 16);
 	public static BufferedImage ENEMY2_EN = Game.spritesheet.getSprite(0, 48, 16, 16);
+	public static BufferedImage ENEMY3_EN = Game.spritesheet.getSprite(0, 64, 16, 16);
 	public static BufferedImage ENEMY1_FEEDBACK = Game.spritesheet.getSprite(96, 32, 16, 16);
 	public static BufferedImage ENEMY2_FEEDBACK = Game.spritesheet.getSprite(112, 32, 16, 16);
+	public static BufferedImage ENEMY3_FEEDBACK = Game.spritesheet.getSprite(128, 32, 16, 16);
 	public static BufferedImage GUN_LEFT = Game.spritesheet.getSprite(144, 49, 16, 16);
 	public static BufferedImage GUN_RIGHT = Game.spritesheet.getSprite(128, 49, 16, 16);
 	
@@ -27,9 +32,11 @@ public class Entity {
 	protected int width;
 	protected int height;
 	
+	protected List <Node> path;
+	
 	private BufferedImage sprite;
 	
-	private int maskx, masky, mwidth, mheight;
+	public int maskx, masky, mwidth, mheight;
 	
 	public Entity(int x, int y, int width, int height, BufferedImage sprite) {
 		this.x = x;
@@ -87,6 +94,52 @@ public class Entity {
 		
 		//retorna a distancia usando angulos para um direcao
 		return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));	//retorna angulos	
+	}
+	
+	//COLISAO
+	public boolean isColliding(int xnext, int ynext) {
+		//lembre-se metodo de colisao usando retangulos
+		Rectangle enemyCurrent =  new Rectangle(xnext + maskx, ynext + masky, mwidth, mheight);
+		
+		for(int i = 0; i < Game.enemies3.size(); i++) {
+			Enemy3 e = Game.enemies3.get(i);
+			if(e == this)
+				continue;
+			Rectangle targetEnemy =  new Rectangle(e.getX() + maskx, e.getY() + masky, mwidth, mheight);
+			if(enemyCurrent.intersects(targetEnemy)) {
+			return true;
+			}
+			
+		}
+		return false;
+	}
+	
+	
+	//SEGUIR O CAMINHO DO ALGORITMO AStar
+	public void followPath(List<Node> path) {
+		if(path != null) {
+			if(path.size() > 0) {
+				//target eh caminho
+				Vector2i target = path.get(path.size() - 1).tile;	//pega o ultimo item da list e depois o tile
+				//xprev = x;
+				//yprev = y;
+				if(x < target.x * 16) {	//16 pq as sprites do tile ta em 16X16
+					x++;
+				}else if(x > target.x * 16) {
+					x--;
+				}
+				
+				if(y < target.y * 16) {
+					y++;
+				}else if( y > target.y * 16) {
+					y--;
+				}
+				
+				if(x == target.x * 16 && y == target.y * 16) {	// se os dois forem iguais, significa que achou o caminho
+					path.remove(path.size() - 1);	//remove da lista e comeca outra ansalie de caminho
+				}
+			}
+		}
 	}
 	
 	public static boolean isColliding(Entity e1,Entity e2) {

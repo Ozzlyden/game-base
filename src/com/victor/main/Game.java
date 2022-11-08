@@ -29,6 +29,7 @@ import javax.swing.JFrame;
 import com.victor.entities.BulletShoot;
 import com.victor.entities.Enemy1;
 import com.victor.entities.Enemy2;
+import com.victor.entities.Enemy3;
 import com.victor.entities.Entity;
 import com.victor.entities.Player;
 import com.victor.graficos.Spritesheet;
@@ -52,6 +53,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	public static List<Entity> entities;
 	public static List<Enemy1> enemies1;
 	public static List<Enemy2> enemies2;
+	public static List<Enemy3> enemies3;
 	public static List<BulletShoot> bullets;
 	
 	public static Spritesheet spritesheet;
@@ -111,6 +113,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		entities = new ArrayList<Entity>();
 		enemies1 = new ArrayList<Enemy1>();
 		enemies2 = new ArrayList<Enemy2>();
+		enemies3 = new ArrayList<Enemy3>();
 		bullets = new ArrayList<BulletShoot>();
 		
 		spritesheet = new Spritesheet("/spritesheet.png");	//chamando o arquivo res/spritesheet.png
@@ -188,14 +191,14 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 			bullets.get(i).tick();
 		}
 		//NEXT LEVEL
-		if(enemies1.size() == 0 && enemies2.size() == 0) {
+		if(enemies1.size() == 0 && enemies2.size() == 0 && enemies3.size() == 0) {
 			CUR_LEVEL ++;
 			if(CUR_LEVEL > MAX_LEVEL) {
 				CUR_LEVEL = 1;
 			}
 			String newWorld = "level" + CUR_LEVEL + ".png";
 			World.restarGame(newWorld);
-		}	
+		}
 		}else if(gameState == "GAME_OVER") {
 			//ANIMCAO TEXTO
 			framesGameOver++;
@@ -217,6 +220,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 				World.restarGame(newWorld);
 			}
 		}else if(gameState == "MENU") {
+			player.updateCamera();
 			menu.tick();
 		}
 	} 

@@ -6,21 +6,20 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import com.victor.main.Game;
+import com.victor.world.AStar;
 import com.victor.world.Camera;
+import com.victor.world.Vector2i;
 import com.victor.world.World;
 
-public class Enemy1 extends Entity{
+public class Enemy3 extends Entity{
 	
-	private double speed = 0.6;
+	private double speed = 0.8;
 	
-	//var para as dimensoes da mascara de colisao
-	private int maskx = 2, masky = 3, maskw = 10, maskh = 10;
+	private int frames = 0, maxFrames = 25, index = 0, maxIndex = 1;
 	
-	private int frames = 0, maxFrames = 15, index = 0, maxIndex = 1;
+	private BufferedImage[] spriteEnemy3;
 	
-	private BufferedImage[] spriteEnemy1;
-	
-	private int life = 2;
+	private int life = 4;
 	
 	public boolean isDamaged = false;
 	private int damageFrames = 8, damageCurrent = 0;
@@ -34,18 +33,21 @@ public class Enemy1 extends Entity{
 		public boolean jumpUp = false, jumpDown = false;
 
 
-	public Enemy1(int x, int y, int width, int height, BufferedImage sprite) {
+	public Enemy3(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, null);
 		
-		spriteEnemy1 = new BufferedImage [2];
+		spriteEnemy3 = new BufferedImage [2];
 		
-		spriteEnemy1[0] = Game.spritesheet.getSprite(16, 32, 16, 16);
-		spriteEnemy1[1] = Game.spritesheet.getSprite(32, 32, 16, 16);
+		spriteEnemy3[0] = Game.spritesheet.getSprite(0, 64, 16, 16);
+		spriteEnemy3[1] = Game.spritesheet.getSprite(16, 64, 16, 16);
 		
 	}
 	
-	//LOGICA I.A
+	
 	public void tick() {
+	
+		/*
+		 //LOGICA I.A(Antiga)
 		if(this.calculateDistance(this.getX(), this.getY(), Game.player.getX(), Game.player.getY()) < 60) {	// 60 eh distancia de avistamento 
 		
 		if(this.isCollidingWithPlayer() == false) {
@@ -70,7 +72,7 @@ public class Enemy1 extends Entity{
 		}else {
 			//SISTEMA DE DANO
 			if(Game.rand.nextInt(100) < 10) {
-				Game.player.life-=Game.rand.nextInt(10);
+				Game.player.life-=Game.rand.nextInt(12);
 				Game.player.isDamaged = true;
 					if(Game.player.life <= 0) {
 						//Game over
@@ -82,6 +84,16 @@ public class Enemy1 extends Entity{
 		}else {	//EM QUANTO NO VIU O PLAYER
 			
 		}
+		*/
+		
+		//ALOGORITMO *A (IA Melhor)
+		if(path == null || path.size() == 0) {
+			Vector2i start = new Vector2i((int) (x/16), (int) (y/16));	//posicao inicial
+			// Colocamos as posicoes atuais do Player
+			Vector2i end = new Vector2i((int) (Game.player.x/16), (int) (Game.player.y/16));	//destino final
+			path = AStar.findPath(Game.world, start, end);
+		}
+		followPath(path);
 		
 		//LOGICA ANIMACAO
 		frames++;
@@ -111,7 +123,7 @@ public class Enemy1 extends Entity{
 	
 	//REMOVE
 	public void destroySelf() {
-		Game.enemies1.remove(this);
+		Game.enemies3.remove(this);
 		Game.entities.remove(this);
 	}
 	
@@ -132,38 +144,23 @@ public class Enemy1 extends Entity{
 	
 	//COLISAO COM PLAYER
 	public boolean isCollidingWithPlayer() {
-		Rectangle enemyCurrent =  new Rectangle(this.getX() + maskx, this.getY() + masky, maskw, maskh);
+		Rectangle enemyCurrent =  new Rectangle(this.getX() + maskx, this.getY() + masky, mwidth, mheight);
 		Rectangle player = new Rectangle(Game.player.getX(), Game.player.getY(), 16, 16);
 		
 		return enemyCurrent.intersects(player);
 	}
 	
 	
-	public boolean isColliding(int xnext, int ynext) {
-		//lembre-se metodo de colisao usando retangulos
-		Rectangle enemyCurrent =  new Rectangle(xnext + maskx, ynext + masky, maskw, maskh);
-		
-		for(int i = 0; i < Game.enemies1.size(); i++) {
-			Enemy1 e = Game.enemies1.get(i);
-			if(e == this)
-				continue;
-			Rectangle targetEnemy =  new Rectangle(e.getX() + maskx, e.getY() + masky, maskw, maskh);
-			if(enemyCurrent.intersects(targetEnemy)) {
-			return true;
-			}
-			
-		}
-		return false;
-	}
 	
 	public void render(Graphics g) {
 		if(!isDamaged)
-			g.drawImage(spriteEnemy1[index],this.getX() - Camera.x, this.getY() - Camera.y, null);
+			g.drawImage(spriteEnemy3[index],this.getX() - Camera.x, this.getY() - Camera.y, null);
 			//g.drawImage(spriteEnemy2[index],this.getX() - Camera.x, this.getY() - Camera.y, null);
 		else 
-			g.drawImage(Entity.ENEMY1_FEEDBACK,this.getX() - Camera.x, this.getY() - Camera.y, null);
+			g.drawImage(Entity.ENEMY3_FEEDBACK,this.getX() - Camera.x, this.getY() - Camera.y, null);
 		//DEBUG  MASK
 		//g.setColor(Color.BLUE);
 		//g.fillRect(getX() + maskx - Camera.x, getY() + masky - Camera.y, maskw, maskh);
-	}
+	}		
 }
+

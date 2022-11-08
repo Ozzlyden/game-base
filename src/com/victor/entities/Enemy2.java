@@ -162,6 +162,5 @@ public class Enemy2 extends Entity{
 			//DEBUG  MASK
 			//g.setColor(Color.BLUE);
 			//g.fillRect(getX() + maskx - Camera.x, getY() + masky - Camera.y, maskw, maskh);
-	}
-		
+	}		
 }

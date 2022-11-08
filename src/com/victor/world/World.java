@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import com.victor.entities.Bullet;
 import com.victor.entities.Enemy1;
 import com.victor.entities.Enemy2;
+import com.victor.entities.Enemy3;
 import com.victor.entities.Entity;
 import com.victor.entities.Lifepack;
 import com.victor.entities.Player;
@@ -41,9 +42,12 @@ public class World {
 			/*	FUNCAO DE CADA COR
 			 * Azul = player (0xFF0026FF)
 			 * vermelho = inimigo 1 (0xFFFF0000)
-			 * vermelho = inimigo 2 (0xFFFF3F4C)
+			 * vermelho = inimigo 2 (0xFFFF0001)
+			 * vermelho = inimigo 3 (0xFFFF0002)
+			 * 
 			 * preto = chão (0xFF000000)
 			 * Branco = parede (0xFFFFFFFF)
+			 * 
 			 * laranja = arma  (0xFF7F3300)
 			 * rosa = vida	(0xFFFF7F7F)
 			 * amarelo = munição (0xFFFFD800)
@@ -55,6 +59,7 @@ public class World {
 					int pixelAtual = pixels[xx + (yy * map.getWidth())];
 					
 					tiles[xx + (yy * WIDTH) ] = new FloorTile(xx * 16, yy * 16, Tile.TILE_FLOOR1);
+					
 					
 					if(pixelAtual == 0xFF000000){
 						//Floor1 
@@ -83,22 +88,31 @@ public class World {
 						Game.entities.add(en1);
 						Game.enemies1.add(en1);
 					}
-					else if(pixelAtual == 0xFFFF3F4C) {
+					else if(pixelAtual == 0xFFFF0001) {
 						//Enemy 2
 						Enemy2 en2 = new Enemy2(xx*16, yy*16, 16, 16, Entity.ENEMY2_EN); 
 						Game.entities.add(en2);
 						Game.enemies2.add(en2);
-					}else if(pixelAtual == 0xFF7F3300) {
+					}
+					else if(pixelAtual == 0xFFFF0002) {
+						//Enemy 3
+						Enemy3 en3 = new Enemy3(xx*16, yy*16, 16, 16, Entity.ENEMY3_EN); 
+						Game.entities.add(en3);
+						Game.enemies3.add(en3);
+					}
+					else if(pixelAtual == 0xFF7F3300) {
 						//Weapon
 						Weapon weapon = new Weapon(xx*16, yy*16, 16, 16, Entity.WEAPON_EN);
 						weapon.setMask(8, 8, 8, 8);	//Tamanho mascara
 						Game.entities.add(weapon);
-					}else if(pixelAtual ==  0xFFFF7F7F) {
+					}
+					else if(pixelAtual ==  0xFFFF7F7F) {
 						//Life Pack
 						Lifepack pack = new Lifepack(xx*16, yy*16, 16, 16, Entity.LIFEPACK_EN);
 						pack.setMask(8, 8, 8, 8);
 						Game.entities.add(pack);
-					}else if (pixelAtual == 0xFFFFD800) {
+					}
+					else if (pixelAtual == 0xFFFFD800) {
 						//Bullet
 						Bullet bullet = new Bullet(xx*16, yy*16, 16, 16, Entity.BULLET_EN);
 						bullet.setMask(8, 8, 8, 8);
@@ -148,9 +162,11 @@ public class World {
 		Game.entities.clear();
 		Game.enemies1.clear();
 		Game.enemies2.clear();
+		Game.enemies3.clear();
 		Game.entities = new ArrayList<Entity>();
 		Game.enemies1 = new ArrayList<Enemy1>();
 		Game.enemies2 = new ArrayList<Enemy2>();
+		Game.enemies3 = new ArrayList<Enemy3>();
 		Game.spritesheet = new Spritesheet("/spritesheet.png");	//chamando o arquivo res/spritesheet.png
 		Game.player = new Player(0, 0, 16, 16, Game.spritesheet.getSprite(32, 0, 16, 16) );
 		Game.entities.add(Game.player);

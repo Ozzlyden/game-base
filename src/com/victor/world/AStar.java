@@ -76,15 +76,15 @@ public class AStar {
 				if(i == 0) {
 					//ele testa se tem como andar nadiagonal na posicao 0
 					Tile test = World.tiles[x + xi + 1 + ((y + yi) * World.WIDTH)];
-					Tile test2 = World.tiles[x + xi + 1 + ((y + yi) * World.WIDTH)];
+					Tile test2 = World.tiles[x + xi + ((y + yi + 1) * World.WIDTH)];
 						if(test instanceof WallTile || test2 instanceof WallTile) {
 							continue;
 						}
 				}
 				else if(i == 2) {
 					//ele testa se tem como andar nadiagonal na posicao 2
-					Tile test = World.tiles[x + xi + 1 + ((y + yi) * World.WIDTH)];
-					Tile test2 = World.tiles[x + xi + ((y + yi) * World.WIDTH)];
+					Tile test = World.tiles[x + xi - 1 + ((y + yi) * World.WIDTH)];
+					Tile test2 = World.tiles[x + xi + ((y + yi + 1) * World.WIDTH)];
 						if(test instanceof WallTile || test2 instanceof WallTile) {
 							continue;
 						}
@@ -115,7 +115,7 @@ public class AStar {
 				if(vecInList(closedList, a) && gCost >= current.gCost) continue;
 				
 				if(!vecInList(openList, a)) {
-					openList.add(null);
+					openList.add(node);
 				}else if(gCost < current.gCost) {
 					openList.remove(current);
 					openList.add(node);
