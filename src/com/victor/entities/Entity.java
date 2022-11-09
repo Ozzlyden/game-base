@@ -24,6 +24,7 @@ public class Entity {
 	public static BufferedImage ENEMY3_FEEDBACK = Game.spritesheet.getSprite(128, 32, 16, 16);
 	public static BufferedImage GUN_LEFT = Game.spritesheet.getSprite(144, 49, 16, 16);
 	public static BufferedImage GUN_RIGHT = Game.spritesheet.getSprite(128, 49, 16, 16);
+	public static BufferedImage FLOWER = Game.spritesheet.getSprite(0, 128, 16, 16);
 	
 
 	protected double x;

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import com.victor.main.Game;
 import com.victor.world.AStar;
@@ -86,14 +87,37 @@ public class Enemy3 extends Entity{
 		}
 		*/
 		
+		//EDIT MASK
+		mwidth = 10;
+		mheight = 10;
+		maskx = 2;
+		masky = 3;
+		
 		//ALOGORITMO *A (IA Melhor)
-		if(path == null || path.size() == 0) {
-			Vector2i start = new Vector2i((int) (x/16), (int) (y/16));	//posicao inicial
+		if(!isCollidingWithPlayer()) {
+			if(path == null || path.size() == 0) {
+				Vector2i start = new Vector2i((int) (x/16), (int) (y/16));	//posicao inicial
+				// Colocamos as posicoes atuais do Player
+				Vector2i end = new Vector2i((int) (Game.player.x/16), (int) (Game.player.y/16));	//destino final
+				path = AStar.findPath(Game.world, start, end);
+			}
+		}else {
+			if(new Random().nextInt(100) < 10) {
+				//Sound.hurtEffect.play()
+				Game.player.life -= Game.rand.nextInt(10);
+				Game.player.isDamaged = true;
+			}
+		}
+		if(new Random().nextInt(100) < 90)	//Nivel de inteligencia
+		followPath(path);	//chamndo o AStar	
+		
+		//Repeti o A* para manter em tempo real a localizacao player
+		if(new Random().nextInt(100) < 5) {
+			Vector2i start = new Vector2i((int) (x/16), (int) (y/16));	
 			// Colocamos as posicoes atuais do Player
-			Vector2i end = new Vector2i((int) (Game.player.x/16), (int) (Game.player.y/16));	//destino final
+			Vector2i end = new Vector2i((int) (Game.player.x/16), (int) (Game.player.y/16));
 			path = AStar.findPath(Game.world, start, end);
 		}
-		followPath(path);
 		
 		//LOGICA ANIMACAO
 		frames++;
@@ -158,9 +182,10 @@ public class Enemy3 extends Entity{
 			//g.drawImage(spriteEnemy2[index],this.getX() - Camera.x, this.getY() - Camera.y, null);
 		else 
 			g.drawImage(Entity.ENEMY3_FEEDBACK,this.getX() - Camera.x, this.getY() - Camera.y, null);
+		
 		//DEBUG  MASK
 		//g.setColor(Color.BLUE);
-		//g.fillRect(getX() + maskx - Camera.x, getY() + masky - Camera.y, maskw, maskh);
+		//g.fillRect(getX() + maskx - Camera.x, getY() + masky - Camera.y, mwidth, mheight);
 	}		
 }
 

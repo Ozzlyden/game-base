@@ -12,6 +12,7 @@ import com.victor.entities.Enemy1;
 import com.victor.entities.Enemy2;
 import com.victor.entities.Enemy3;
 import com.victor.entities.Entity;
+import com.victor.entities.Flower;
 import com.victor.entities.Lifepack;
 import com.victor.entities.Player;
 import com.victor.entities.Weapon;
@@ -51,6 +52,7 @@ public class World {
 			 * laranja = arma  (0xFF7F3300)
 			 * rosa = vida	(0xFFFF7F7F)
 			 * amarelo = munição (0xFFFFD800)
+			 * verde = flower (0xFF4CFF00)
 			 */
 			
 			//LOGICA  DE IDENTIFICACAO POR PIXELS
@@ -117,7 +119,12 @@ public class World {
 						Bullet bullet = new Bullet(xx*16, yy*16, 16, 16, Entity.BULLET_EN);
 						bullet.setMask(8, 8, 8, 8);
 						Game.entities.add(bullet);
-
+					}
+					else if (pixelAtual == 0xFF4CFF00) {
+						//Flower
+						Flower flower = new Flower(xx*16, yy*16, 16, 16, Entity.FLOWER);
+						flower.setMask(8, 8, 8, 8);
+						Game.entities.add(flower);
 					}
 					
 				}
@@ -163,6 +170,7 @@ public class World {
 		Game.enemies1.clear();
 		Game.enemies2.clear();
 		Game.enemies3.clear();
+		Game.bullets.clear();
 		Game.entities = new ArrayList<Entity>();
 		Game.enemies1 = new ArrayList<Enemy1>();
 		Game.enemies2 = new ArrayList<Enemy2>();

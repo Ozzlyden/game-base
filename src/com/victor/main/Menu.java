@@ -160,7 +160,7 @@ public class Menu {
 		g2.fillRect(0, 0, Game.WIDTH*Game.SCALE, Game.HEIGHT*Game.SCALE);
 		g.setColor(Color.RED);
 		g.setFont(new Font("arial", Font.BOLD, 30));
-		g.drawString("->Zelda Clone<-", (Game.WIDTH*Game.SCALE / 2) - 125, (Game.HEIGHT*Game.SCALE / 2 - 150));
+		g.drawString("->Game Base<-", (Game.WIDTH*Game.SCALE / 2) - 125, (Game.HEIGHT*Game.SCALE / 2 - 150));
 		
 		//OPCOE MENU
 		g.setColor(Color.WHITE);

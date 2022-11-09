@@ -46,7 +46,7 @@ public class Enemy1 extends Entity{
 	
 	//LOGICA I.A
 	public void tick() {
-		if(this.calculateDistance(this.getX(), this.getY(), Game.player.getX(), Game.player.getY()) < 60) {	// 60 eh distancia de avistamento 
+		if(this.calculateDistance(this.getX(), this.getY(), Game.player.getX(), Game.player.getY()) < 70) {	// 60 eh distancia de avistamento 
 		
 		if(this.isCollidingWithPlayer() == false) {
 			
@@ -69,8 +69,8 @@ public class Enemy1 extends Entity{
 		}
 		}else {
 			//SISTEMA DE DANO
-			if(Game.rand.nextInt(100) < 10) {
-				Game.player.life-=Game.rand.nextInt(10);
+			if(Game.rand.nextInt(100) < 50) {	//Nivel te inteligencia
+				Game.player.life-=Game.rand.nextInt(8);
 				Game.player.isDamaged = true;
 					if(Game.player.life <= 0) {
 						//Game over
@@ -162,6 +162,7 @@ public class Enemy1 extends Entity{
 			//g.drawImage(spriteEnemy2[index],this.getX() - Camera.x, this.getY() - Camera.y, null);
 		else 
 			g.drawImage(Entity.ENEMY1_FEEDBACK,this.getX() - Camera.x, this.getY() - Camera.y, null);
+		
 		//DEBUG  MASK
 		//g.setColor(Color.BLUE);
 		//g.fillRect(getX() + maskx - Camera.x, getY() + masky - Camera.y, maskw, maskh);

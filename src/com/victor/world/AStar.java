@@ -98,7 +98,7 @@ public class AStar {
 						}
 				}
 				else if(i == 8) {
-					//ele testa se tem como andar nadiagonal na posicao 9
+					//ele testa se tem como andar nadiagonal na posicao 8
 					Tile test = World.tiles[x + xi + ((y + yi - 1) * World.WIDTH)];
 					Tile test2 = World.tiles[x + xi - 1 + ((y + yi) * World.WIDTH)];
 						if(test instanceof WallTile || test2 instanceof WallTile) {

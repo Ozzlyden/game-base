@@ -77,7 +77,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	public Menu menu;
 	
 	public int[] pixels;	//pixels da imagem
-	//public int xx, yy;
+	public int xx, yy;
 	public BufferedImage lightmap;	
 	public int [] lightMapPixels;
 	
@@ -86,10 +86,13 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	public int mx, my;	//posicao mouse
 	
 	public Game() {
+		
+		//CHAMANDO BIBLIOTECAS
 		rand = new Random();
 		addKeyListener(this);
 		addMouseListener(this);
 		addMouseMotionListener(this);
+		
 		//JANELA
 		setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
 		intFrame();
@@ -98,8 +101,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		ui = new UI();
 		image = new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB);
 		
-		
-		/*
+		//LIGHT
 		try {
 			lightmap = ImageIO.read(getClass().getResource("/lightmap.png"));
 		} catch (IOException e) {
@@ -108,8 +110,8 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		lightMapPixels = new int[lightmap.getWidth() * lightmap.getHeight()];
 		lightmap.getRGB(0, 0, lightmap.getWidth(),lightmap.getHeight(), lightMapPixels, 0, lightmap.getWidth());
 		pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();	//Pega os pixels na var "image" para manipulacao
-		*/
-		
+	
+		//Instanciando Entities
 		entities = new ArrayList<Entity>();
 		enemies1 = new ArrayList<Enemy1>();
 		enemies2 = new ArrayList<Enemy2>();
@@ -122,7 +124,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		entities.add(player);
 		world = new World("/level1.png");
 		
-		//Carregar fonte
+		//CARREGANDO FONTE
 		try {
 			newfont = Font.createFont(Font.TRUETYPE_FONT, stream).deriveFont(70f); 	//tam font
 		} catch (FontFormatException e) {
@@ -135,7 +137,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	}
 	
 	public void intFrame() {
-		frame = new JFrame("Zelda");
+		frame = new JFrame("Game Base");
 		frame.add(this);
 		frame.setResizable(false);
 		frame.pack();
@@ -243,6 +245,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	
 	//SISTEMA DE ILUMINACAO
 	public void applyLight() {
+		/*
 		for(int xx = 0; xx < Game.WIDTH; xx++) {
 			for (int yy = 0; yy < Game.HEIGHT; yy ++) {
 				if(lightMapPixels[xx + (yy * Game.WIDTH)] == 0xffffffff) {
@@ -250,6 +253,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 				}
 			}
 		}
+		*/
 	}
 	
 	
@@ -277,7 +281,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 			bullets.get(i).render(g);
 		}
 		
-		//applyLight(); 	//efeito de luz
+		applyLight(); 	//efeito de luz
 		ui.render(g);
 		
 		g.dispose();
@@ -362,7 +366,6 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	}
 	
 	//TECLADO
-	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		

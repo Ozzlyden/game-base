@@ -20,7 +20,7 @@ public class Enemy2 extends Entity{
 	
 	private BufferedImage[] spriteEnemy2;
 	
-	private int life = 10;
+	private int life = 6;
 	
 	public boolean isDamaged = false;
 	private int damageFrames = 8, damageCurrent = 0;
@@ -60,7 +60,7 @@ public class Enemy2 extends Entity{
 		}
 		}else {
 			//SISTEMA DE DANO
-			if(Game.rand.nextInt(100) < 10) {
+			if(Game.rand.nextInt(100) < 20) {
 				Game.player.life-=Game.rand.nextInt(15);
 				Game.player.isDamaged = true;
 					if(Game.player.life <= 0) {
