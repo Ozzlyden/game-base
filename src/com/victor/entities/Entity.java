@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.Comparator;
 import java.util.List;
 
 import com.victor.main.Game;
@@ -33,6 +34,8 @@ public class Entity {
 	protected int width;
 	protected int height;
 	
+	public int depth;	//Camadas de renderizacoa
+	
 	protected List <Node> path;
 	
 	private BufferedImage sprite;
@@ -52,6 +55,23 @@ public class Entity {
 		this.mwidth = width;
 		this.mheight = height;
 	}
+	
+	//COMPARACAO CAMADAS RENDER
+	public static Comparator<Entity> nodeSorter = new Comparator<Entity>() {
+			//O primeiro da lista eh renderizado primeiro e o ultimo eho ultimo
+			// ex: depth = 10, vai renderizar primeiro que um depth = 1
+			
+			@Override
+			public int compare(Entity n0, Entity n1){
+				if(n1.depth < n0.depth) 
+					return +1;
+				
+				if(n1.depth > n0.depth)
+					return -1;
+				return 0;
+					
+			}
+		};
 	
 	//GET E SETTERS -> Sao metodos de acesso para as var privadas
 	//serve para proteger o as variaveis de alteracoes

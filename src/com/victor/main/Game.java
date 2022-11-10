@@ -20,6 +20,7 @@ import java.awt.image.DataBufferInt;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -273,6 +274,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		
 		//RENDER DO GAME
 		world.render(g);
+		Collections.sort(entities, Entity.nodeSorter);	//Organizar camadas de render
 		for(int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
 			e.render(g);

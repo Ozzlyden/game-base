@@ -85,32 +85,8 @@ public class Player extends Entity {
 	}
 
 	public void tick() {
-		//FAKE JUMP
-		if(jump) {
-			if (isJumping == false) {
-				jump = false;
-				isJumping = true;
-				jumpUp = true;
-			}
-		}
-		
-		if(isJumping == true) {
-				if(jumpUp ) {
-					jumpCur+=2;
-				}else if(jumpDown) {
-					jumpCur -=2;
-					if(jumpCur <= 0) {
-						isJumping = false;
-						jumpDown = false;
-						jumpUp = false;
-					}
-				}
-				z = jumpCur;
-				if(jumpCur >= jumpFrames ) {	//altura MAX
-					jumpUp = false;
-					jumpDown = true;
-				}	
-		}
+		fakeJump();
+		depth = 2;
 		
 		//LOGICA DE MOVIMENTACAO
 		moved = false;
@@ -148,15 +124,7 @@ public class Player extends Entity {
 			this.checkCollisionLifePack();
 			checkCollisionAmmo();
 			checkCollisionGun();
-			
-			//FEEDBACK DANO ANIMCACAO
-			if (isDamaged){
-				this.damageFrames++;
-				if(this.damageFrames == 8) {
-					this.damageFrames = 0;
-					isDamaged = false;
-				}
-			}
+			feedBackDamage();
 			
 			//LOGICA SISTEMA DE TIRO TECLADO
 			if(shoot) {
@@ -211,10 +179,44 @@ public class Player extends Entity {
 			updateCamera();
 	}
 	
-	//LOGICA PARA A CAMERA SEGUIR e NAO MOSTRAR AS AREAS FORA DO MAPA
-	public void updateCamera() {
-		Camera.x = Camera.clamp(this.getX() - (Game.WIDTH/2), 0, World.WIDTH * 16 - Game.WIDTH);
-		Camera.y = Camera.clamp(this.getY() - (Game.HEIGHT/2), 0, World.HEIGHT * 16 - Game.HEIGHT);
+	private void fakeJump() {
+		//FAKE JUMP
+			if(jump) {
+				if (isJumping == false) {
+					jump = false;
+					isJumping = true;
+					jumpUp = true;
+				}
+			}
+				
+			if(isJumping == true) {
+				if(jumpUp ) {
+					jumpCur+=2;
+				}else if(jumpDown) {
+						jumpCur -=2;
+					if(jumpCur <= 0) {
+						isJumping = false;
+						jumpDown = false;
+						jumpUp = false;
+					}
+				}
+			z = jumpCur;
+			if(jumpCur >= jumpFrames ) {	//altura MAX
+				jumpUp = false;
+				jumpDown = true;
+			}	
+		}
+	}
+	
+	private void feedBackDamage() {
+		//FEEDBACK DANO ANIMCACAO
+		if (isDamaged){
+			this.damageFrames++;
+			if(this.damageFrames == 8) {
+				this.damageFrames = 0;
+				isDamaged = false;
+			}
+		}
 	}
 	
 	
@@ -264,8 +266,13 @@ public class Player extends Entity {
 				}
 			}
 			
-		}
-		
+		}	
+	}
+	
+	//LOGICA PARA A CAMERA SEGUIR e NAO MOSTRAR AS AREAS FORA DO MAPA
+	public void updateCamera() {
+		Camera.x = Camera.clamp(this.getX() - (Game.WIDTH/2), 0, World.WIDTH * 16 - Game.WIDTH);
+		Camera.y = Camera.clamp(this.getY() - (Game.HEIGHT/2), 0, World.HEIGHT * 16 - Game.HEIGHT);
 	}
 	
 	
@@ -305,8 +312,6 @@ public class Player extends Entity {
 		if(isJumping) {
 			g.setColor(Color.black);
 			g.fillOval(this.getX() -  Camera.x + 4, this.getY() - Camera.y  + 10, 8, 8);
-		}
-		
-	}
-	
+		}	
+	}	
 }

@@ -75,17 +75,14 @@ public class Enemy3 extends Entity{
 			if(Game.rand.nextInt(100) < 10) {
 				Game.player.life-=Game.rand.nextInt(12);
 				Game.player.isDamaged = true;
-					if(Game.player.life <= 0) {
-						//Game over
-						//System.exit(1);
-					}
-			//System.out.println("Vida: " + Game.player.life);
 				}
 			}
-		}else {	//EM QUANTO NO VIU O PLAYER
+		}else {	//EM QUANTO N VIU O PLAYER
 			
 		}
 		*/
+		
+		depth = 0;
 		
 		//EDIT MASK
 		mwidth = 10;

@@ -23,6 +23,7 @@ public class Flower extends Entity{
 	}
 	
 	public void tick() {
+		depth = 0;
 		//LOGICA ANIMACAO
 		frames++;
 		if(frames == maxFrames) {

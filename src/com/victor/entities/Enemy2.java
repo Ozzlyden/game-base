@@ -37,6 +37,7 @@ public class Enemy2 extends Entity{
 	
 	//LOGICA I.A
 	public void tick() {
+		depth = 0;	// nivel camada render
 		
 		if(this.calculateDistance(this.getX(), this.getY(), Game.player.getX(), Game.player.getY()) < 200) {	// 200 eh distancia de avistamento 
 		
@@ -63,14 +64,9 @@ public class Enemy2 extends Entity{
 			if(Game.rand.nextInt(100) < 20) {
 				Game.player.life-=Game.rand.nextInt(15);
 				Game.player.isDamaged = true;
-					if(Game.player.life <= 0) {
-						//Game over
-						//System.exit(1);
-					}
-				//System.out.println("Vida" + Game.player.life);
 				}
 			}
-		}else { //EM QUANTO NO VIU O PLAYER
+		}else { //EM QUANTO N VIU O PLAYER
 			
 			
 		}

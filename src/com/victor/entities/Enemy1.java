@@ -46,6 +46,8 @@ public class Enemy1 extends Entity{
 	
 	//LOGICA I.A
 	public void tick() {
+		depth = 0;	//camada render
+		
 		if(this.calculateDistance(this.getX(), this.getY(), Game.player.getX(), Game.player.getY()) < 70) {	// 60 eh distancia de avistamento 
 		
 		if(this.isCollidingWithPlayer() == false) {
@@ -72,14 +74,9 @@ public class Enemy1 extends Entity{
 			if(Game.rand.nextInt(100) < 50) {	//Nivel te inteligencia
 				Game.player.life-=Game.rand.nextInt(8);
 				Game.player.isDamaged = true;
-					if(Game.player.life <= 0) {
-						//Game over
-						//System.exit(1);
-					}
-			//System.out.println("Vida: " + Game.player.life);
 				}
 			}
-		}else {	//EM QUANTO NO VIU O PLAYER
+		}else {	//EM QUANTO N VIU O PLAYER
 			
 		}
 		
