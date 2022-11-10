@@ -86,7 +86,7 @@ public class Player extends Entity {
 
 	public void tick() {
 		fakeJump();
-		depth = 2;
+		depth = 2;	// CAMADA DE RENDER
 		
 		//LOGICA DE MOVIMENTACAO
 		moved = false;
