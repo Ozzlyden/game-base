@@ -2,6 +2,7 @@ package com.victor.entities;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -86,7 +87,14 @@ public class Player extends Entity {
 
 	public void tick() {
 		fakeJump();
-		depth = 2;	// CAMADA DE RENDER
+		// CAMADA DE RENDER
+		depth = 2;
+		
+		//EDIT MASK
+		mwidth = 10;
+		mheight = 10;
+		maskx = 2;
+		masky = 3;
 		
 		//LOGICA DE MOVIMENTACAO
 		moved = false;
@@ -208,6 +216,11 @@ public class Player extends Entity {
 		}
 	}
 	
+	
+			
+			
+		
+	
 	private void feedBackDamage() {
 		//FEEDBACK DANO ANIMCACAO
 		if (isDamaged){
@@ -312,6 +325,10 @@ public class Player extends Entity {
 		if(isJumping) {
 			g.setColor(Color.black);
 			g.fillOval(this.getX() -  Camera.x + 4, this.getY() - Camera.y  + 10, 8, 8);
-		}	
+		}
+		
+		//DEBUG  MASK
+		//g.setColor(Color.BLUE);
+		//g.fillRect(getX() + maskx - Camera.x, getY() + masky - Camera.y, mwidth, mheight);
 	}	
 }

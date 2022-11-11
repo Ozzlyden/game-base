@@ -129,8 +129,8 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		entities.add(player);
 		world = new World("/level1.png");
 		
-		minimapa = new BufferedImage(World.WIDTH, World.HEIGHT, BufferedImage.TYPE_INT_RGB);
-		minimapaPixels = ((DataBufferInt) minimapa.getRaster().getDataBuffer()).getData();
+		//minimapa = new BufferedImage(World.WIDTH, World.HEIGHT, BufferedImage.TYPE_INT_RGB);
+		//minimapaPixels = ((DataBufferInt) minimapa.getRaster().getDataBuffer()).getData();
 		
 		//CARREGANDO FONTE
 		try {
@@ -200,6 +200,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		for(int i = 0; i < bullets.size(); i++) {
 			bullets.get(i).tick();
 		}
+		/*
 		//NEXT LEVEL
 		if(enemies1.size() == 0 && enemies2.size() == 0 && enemies3.size() == 0) {
 			CUR_LEVEL ++;
@@ -209,6 +210,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 			String newWorld = "level" + CUR_LEVEL + ".png";
 			World.restarGame(newWorld);
 		}
+		*/
 		}else if(gameState == "GAME_OVER") {
 			//ANIMCAO TEXTO
 			framesGameOver++;
@@ -336,7 +338,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		g.setColor(Color.blue);
 		g.fillRect(200, 200, 50, 50);
 		*/
-		World.renderMiniMap();
+		//World.renderMiniMap();
 		g.drawImage(minimapa,618, 377,World.WIDTH * 5, World.HEIGHT * 5, null);
 		bs.show();	
 	}

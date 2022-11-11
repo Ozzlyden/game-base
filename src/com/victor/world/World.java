@@ -28,6 +28,61 @@ public class World {
 	
 	
 	public World (String path){
+		
+		//ALGORITMO MAP RANDOMICO
+		Game.player.setX(0);	//posicao inicial Player
+		Game.player.setY(0);
+		WIDTH = 100;
+		HEIGHT = 100;
+		tiles = new Tile[WIDTH * HEIGHT];
+		
+		//COLOCANDO PAREDES (WALL)
+		for (int xx = 0; xx < WIDTH; xx++) {
+			for (int yy = 0; yy < HEIGHT; yy++) {
+				tiles[xx + yy *WIDTH] = new WallTile(xx * 16, yy * 16,Tile.TILE_WALL);
+			}
+		}
+		
+		int dir = 0;
+		int xx = 0, yy = 0;
+		
+		
+		for (int i = 0; i < 200; i++) {	//200 tamanho do mundo
+			//RESCREVENDO E COLOCANDO CHAO (FLOOR_
+			tiles[xx + yy *WIDTH] = new FloorTile(xx * 16, yy * 16,Tile.TILE_FLOOR1);
+			
+			if(dir == 0) {
+			//direita
+				if(xx < WIDTH) {
+					xx++;
+				}
+				
+			}else if(dir == 1) {
+			//esquerda
+				if(xx > 0) {
+					xx--;
+				}
+				
+			}else if(dir == 2) {
+			//baixo
+				if(yy < HEIGHT) {
+					yy++;
+				}
+			}else if(dir == 3) {
+			//cima
+				if(yy > 0) {
+					yy--;
+				}
+			}
+			
+			if(Game.rand.nextInt(100) < 30) {
+				dir = Game.rand.nextInt(4);
+			}
+		}
+		
+		
+		/*
+		 //CRIACAO DO MAP NORMAL 
 		try {
 			//IDENTIFICACAO DE CADA PIXEL DO MAP
 			BufferedImage map = ImageIO.read(getClass().getResourceAsStream(path));
@@ -54,6 +109,8 @@ public class World {
 			 * amarelo = munição (0xFFFFD800)
 			 * verde = flower (0xFF4CFF00)
 			 */
+		
+			/*
 			
 			//LOGICA  DE IDENTIFICACAO POR PIXELS
 			for(int xx = 0; xx < map.getWidth(); xx++) {
@@ -133,6 +190,7 @@ public class World {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
 	}
 	
 	//METODO DE COLISOES
@@ -207,6 +265,8 @@ public class World {
 		}
 	}
 	
+	
+	/*
 	public static void renderMiniMap() {
 		for(int i = 0; i < Game.minimapaPixels.length; i++) {
 			Game.minimapaPixels[i] = 0;
@@ -224,4 +284,6 @@ public class World {
 		
 		Game.minimapaPixels[xPlayer + (yPlayer*WIDTH)] = 0xff0026FF;
 	}
+	*/
 }
+
