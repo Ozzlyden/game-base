@@ -29,6 +29,8 @@ public class World {
 	
 	public World (String path){
 		
+		
+		/*
 		//ALGORITMO MAP RANDOMICO
 		Game.player.setX(0);	//posicao inicial Player
 		Game.player.setY(0);
@@ -79,9 +81,9 @@ public class World {
 				dir = Game.rand.nextInt(4);
 			}
 		}
+		*/
 		
 		
-		/*
 		 //CRIACAO DO MAP NORMAL 
 		try {
 			//IDENTIFICACAO DE CADA PIXEL DO MAP
@@ -110,7 +112,6 @@ public class World {
 			 * verde = flower (0xFF4CFF00)
 			 */
 		
-			/*
 			
 			//LOGICA  DE IDENTIFICACAO POR PIXELS
 			for(int xx = 0; xx < map.getWidth(); xx++) {
@@ -118,7 +119,6 @@ public class World {
 					int pixelAtual = pixels[xx + (yy * map.getWidth())];
 					
 					tiles[xx + (yy * WIDTH) ] = new FloorTile(xx * 16, yy * 16, Tile.TILE_FLOOR1);
-					
 					
 					if(pixelAtual == 0xFF000000){
 						//Floor1 
@@ -183,14 +183,12 @@ public class World {
 						flower.setMask(8, 8, 8, 8);
 						Game.entities.add(flower);
 					}
-					
 				}
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		*/
 	}
 	
 	//METODO DE COLISOES
@@ -266,7 +264,7 @@ public class World {
 	}
 	
 	
-	/*
+	
 	public static void renderMiniMap() {
 		for(int i = 0; i < Game.minimapaPixels.length; i++) {
 			Game.minimapaPixels[i] = 0;
@@ -276,6 +274,7 @@ public class World {
 				if(tiles[xx + (yy*WIDTH)] instanceof WallTile) {
 					Game.minimapaPixels[xx + (yy*WIDTH)] = 0xffFFFF;
 				}
+				
 			}
 		}
 		//passando as posicoes Player para Tile
@@ -284,6 +283,5 @@ public class World {
 		
 		Game.minimapaPixels[xPlayer + (yPlayer*WIDTH)] = 0xff0026FF;
 	}
-	*/
 }
 

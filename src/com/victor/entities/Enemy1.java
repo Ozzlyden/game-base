@@ -135,7 +135,7 @@ public class Enemy1 extends Entity{
 		return enemyCurrent.intersects(player);
 	}
 	
-	
+	//MASK COLISAO
 	public boolean isColliding(int xnext, int ynext) {
 		//lembre-se metodo de colisao usando retangulos
 		Rectangle enemyCurrent =  new Rectangle(xnext + maskx, ynext + masky, maskw, maskh);

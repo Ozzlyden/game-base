@@ -3,11 +3,15 @@ package com.victor.main;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -78,7 +82,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	public Menu menu;
 	
 	public int xx, yy;
-	public BufferedImage lightmap;	
+	public BufferedImage lightmap, icon;	
 	
 	public int[] pixels;	//pixels da imagem
 	public int [] lightMapPixels;
@@ -129,8 +133,8 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		entities.add(player);
 		world = new World("/level1.png");
 		
-		//minimapa = new BufferedImage(World.WIDTH, World.HEIGHT, BufferedImage.TYPE_INT_RGB);
-		//minimapaPixels = ((DataBufferInt) minimapa.getRaster().getDataBuffer()).getData();
+		minimapa = new BufferedImage(World.WIDTH, World.HEIGHT, BufferedImage.TYPE_INT_RGB);
+		minimapaPixels = ((DataBufferInt) minimapa.getRaster().getDataBuffer()).getData();
 		
 		//CARREGANDO FONTE
 		try {
@@ -149,6 +153,22 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		frame.add(this);
 		frame.setResizable(false);
 		frame.pack();
+		
+		//ICONE DA JANELA
+		Image icon = null;
+		try {
+			icon = ImageIO.read(getClass().getResource("/icon.png"));	//tentar buscar a imagem
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+		//CURSO MOUSE NO GAME
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		Image icon_cursor = toolkit.getImage(getClass().getResource("/icon_mouse.png"));	//pegando a imagem
+		Cursor c = toolkit.createCustomCursor(icon_cursor, new Point(0, 0), "img");	//criando o cursor
+		
+		frame.setCursor(c);
+		frame.setIconImage(icon);	//troca o icon do java pelo seu
+		frame.setAlwaysOnTop(true);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
@@ -200,7 +220,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		for(int i = 0; i < bullets.size(); i++) {
 			bullets.get(i).tick();
 		}
-		/*
+		
 		//NEXT LEVEL
 		if(enemies1.size() == 0 && enemies2.size() == 0 && enemies3.size() == 0) {
 			CUR_LEVEL ++;
@@ -210,7 +230,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 			String newWorld = "level" + CUR_LEVEL + ".png";
 			World.restarGame(newWorld);
 		}
-		*/
+		
 		}else if(gameState == "GAME_OVER") {
 			//ANIMCAO TEXTO
 			framesGameOver++;
@@ -338,7 +358,8 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		g.setColor(Color.blue);
 		g.fillRect(200, 200, 50, 50);
 		*/
-		//World.renderMiniMap();
+		
+		World.renderMiniMap();
 		g.drawImage(minimapa,618, 377,World.WIDTH * 5, World.HEIGHT * 5, null);
 		bs.show();	
 	}
