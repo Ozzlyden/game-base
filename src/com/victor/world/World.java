@@ -2,6 +2,7 @@ package com.victor.world;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -235,13 +236,15 @@ public class World {
 		Game.player = new Player(0, 0, 16, 16, Game.spritesheet.getSprite(32, 0, 16, 16) );
 		Game.entities.add(Game.player);
 		Game.world = new World("/" + level);
+		
+		Game.minimapa = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+		Game.minimapaPixels = ((DataBufferInt)Game.minimapa.getRaster().getDataBuffer()).getData();
 		return;
 	}
 
 	public void render (Graphics g) {
 		
 		//LOGICA DE RENDER PARA AREA QUE O PLAYER ESTA
-		
 		int xstart = Camera.x>>4;
 		int ystart = Camera.y>>4;
 		
