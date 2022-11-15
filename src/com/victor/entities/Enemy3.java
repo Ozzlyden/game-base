@@ -105,7 +105,7 @@ public class Enemy3 extends Entity{
 				Game.player.isDamaged = true;
 			}
 		}
-		if(new Random().nextInt(100) < 90)	//Nivel de inteligencia
+		if(new Random().nextInt(100) < 80)	//Nivel de inteligencia
 		followPath(path);	//chamndo o AStar	
 		
 		//Repeti o A* para manter em tempo real a localizacao player

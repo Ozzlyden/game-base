@@ -66,7 +66,7 @@ public class Enemy1 extends Entity{
 		}
 		}else {
 			//SISTEMA DE DANO
-			if(Game.rand.nextInt(100) < 50) {	//Nivel te inteligencia
+			if(Game.rand.nextInt(100) < 20) {	//Nivel te inteligencia
 				Game.player.life-=Game.rand.nextInt(8);
 				Game.player.isDamaged = true;
 				}

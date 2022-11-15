@@ -343,7 +343,6 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 			g.setColor(Color.white);
 			g.drawString("GAME OVER ",(WIDTH*SCALE) / 2 - 100,(HEIGHT*SCALE) / 2 - 0);
 			g.setFont(new Font("arial", Font.BOLD, 30));
-			
 			if(showMessageGameOver)		//animacao texto
 				g.drawString("PRESS ENTER PARA RESET ",(WIDTH*SCALE) / 2 - 175,(HEIGHT*SCALE) / 2 + 90);
 			
