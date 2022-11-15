@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import com.victor.graficos.Spritesheet;
 import com.victor.main.Game;
+import com.victor.main.Sound;
+import com.victor.main.Sound.Clips;
 import com.victor.world.Camera;
 import com.victor.world.World;
 
@@ -152,6 +154,7 @@ public class Player extends Entity {
 				
 				BulletShoot bullet = new BulletShoot(this.getX() + px, this.getY() + py, 3, 3, null, dx, 0);
 				Game.bullets.add(bullet);
+				Sound.Clips.effect_shoot1.play();
 				}
 			}
 			
@@ -176,6 +179,7 @@ public class Player extends Entity {
 				
 				BulletShoot bullet = new BulletShoot(this.getX() + px, this.getY() + py, 3, 3, null, dx, dy);
 				Game.bullets.add(bullet);
+				Sound.Clips.effect_shoot1.play();
 				}
 			}
 			

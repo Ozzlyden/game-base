@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import com.victor.main.Game;
+import com.victor.main.Sound;
 import com.victor.world.Camera;
 import com.victor.world.World;
 
@@ -25,13 +26,7 @@ public class Enemy1 extends Entity{
 	public boolean isDamaged = false;
 	private int damageFrames = 8, damageCurrent = 0;
 	
-	//FAKE JUMP
-		public boolean jump = false;
-		public int z = 0;	//eixo z, altura jump
-		public int jumpFrames = 40, jumpCur = 0;	//animacao do pulo
-		public boolean isJumping = false;
-		public int jumpSpd = 1;
-		public boolean jumpUp = false, jumpDown = false;
+	
 
 
 	public Enemy1(int x, int y, int width, int height, BufferedImage sprite) {
@@ -121,6 +116,7 @@ public class Enemy1 extends Entity{
 					isDamaged = true;
 					life--;
 					Game.bullets.remove(i);
+					Sound.Clips.effect_hurt1.play();
 					return;
 				}	
 			}

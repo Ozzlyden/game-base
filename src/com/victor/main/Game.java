@@ -191,6 +191,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	
 	
 	public static void main (String [] args) {
+		//Sound.Clips.music1.loop();
 		Game game = new Game();
 		game.start();
 		

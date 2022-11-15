@@ -193,7 +193,7 @@ public class World {
 	}
 	
 	//METODO DE COLISOES
-	public static boolean isFree(int xnext, int ynext, int z) {
+	public static boolean isFree(int xnext, int ynext, double z) {
 		//LOGICA DE COLOSIAO
 		int x1 = xnext / TILE_SIZE;
 		int y1 = ynext / TILE_SIZE;
