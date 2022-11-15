@@ -46,7 +46,7 @@ public class Sound {
 		
 		//LISTA DE SONS
 		public static Clips music1 = load("/music.wav", 1);
-		public static Clips music2 = load("/lost_woods1.wav", 1);
+		public static Clips music2 = load("/lost_woods.wav", 1);
 		
 		public static Clips effect_hurt1 = load("/hurt.wav", 1);
 		public static Clips effect_shoot1 = load("/shoot.wav", 1);

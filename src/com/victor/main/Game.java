@@ -370,6 +370,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	@Override
 	public void run() {
 		
+		requestFocus();	//foco na janela do game ao iniciar
 		long lastTime = System.nanoTime();
 		double amountOfTicks = 60.0;
 		double ns = 1000000000 / amountOfTicks;
