@@ -102,8 +102,11 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		
+		//FULLSCREEN
+		setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
+		
 		//JANELA
-		setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
+		//setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
 		intFrame();
 		
 		//INICIALIZANDO OBJETOS
@@ -151,6 +154,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	public void intFrame() {
 		frame = new JFrame("Game Base");
 		frame.add(this);
+		//frame.setUndecorated(true);	//vai tirar as barras da janela
 		frame.setResizable(false);
 		frame.pack();
 		
@@ -288,7 +292,6 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	}
 	
 	
-	
 	public void render() {
 		BufferStrategy bs = this.getBufferStrategy();
 		
@@ -318,8 +321,11 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		
 		g.dispose();
 		g = bs.getDrawGraphics();
+		
 		//drawRectangleExemple(xx, yy);
 		g.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
+		//fullscreen 
+		g.drawImage(image, 0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height, null); 
 		
 		//UI AMMMO 
 		g.setFont(new Font("arial", Font.BOLD, 20));
