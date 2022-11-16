@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import com.victor.main.Game;
+import com.victor.main.Sound;
 import com.victor.world.Camera;
 import com.victor.world.World;
 
@@ -40,7 +41,8 @@ public class Enemy2 extends Entity{
 		depth = 0;	// nivel camada render
 		
 		if(this.calculateDistance(this.getX(), this.getY(), Game.player.getX(), Game.player.getY()) < 200) {	// 200 eh distancia de avistamento 
-		
+			Sound.Clips.effect_enemy2.loop();
+			
 		if(this.isCollidingWithPlayer() == false) {
 		
 		if((int)x < Game.player.getX() /*&& World.isFree((int)(x + speed), this.getY())
@@ -61,7 +63,7 @@ public class Enemy2 extends Entity{
 		}
 		}else {
 			//SISTEMA DE DANO
-			if(Game.rand.nextInt(100) < 60) {
+			if(Game.rand.nextInt(100) < 0) {
 				Game.player.life-=Game.rand.nextInt(15);
 				Game.player.isDamaged = true;
 				}
@@ -102,6 +104,7 @@ public class Enemy2 extends Entity{
 			public void destroySelf() {
 				Game.enemies2.remove(this);
 				Game.entities.remove(this);
+				Sound.Clips.effect_enemy2.stop();
 			}
 			
 			//DANO BALA
@@ -113,6 +116,7 @@ public class Enemy2 extends Entity{
 							isDamaged = true;
 							life--;
 							Game.bullets.remove(i);
+							Sound.Clips.effect_hurt2.play();
 							return;
 						}
 						

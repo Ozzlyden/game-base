@@ -44,12 +44,23 @@ public class Sound {
 			clips[p].loop(300);
 		}
 		
-		//LISTA DE SONS
-		public static Clips music1 = load("/music.wav", 1);
-		public static Clips music2 = load("/lost_woods.wav", 1);
+		//PARAR
+		public void stop() {
+			clips[p].stop();
+		}
 		
-		public static Clips effect_hurt1 = load("/hurt.wav", 1);
-		public static Clips effect_shoot1 = load("/shoot.wav", 1);
+		//LISTA DE SONS
+		public static Clips music1 = load("/audio/music.wav", 1);
+		public static Clips music2 = load("/audio/lost_woods.wav", 1);
+		
+		public static Clips effect_hurt1 = load("/audio/zombi.wav", 1);
+		public static Clips effect_hurt2 = load("/audio/hurt.wav", 1);
+		public static Clips effect_hurt3 = load("/audio/dog_hurt.wav", 1);
+		
+		public static Clips effect_enemy2 = load("/audio/fantasma.wav", 1);
+		public static Clips effect_enemy3 = load("/audio/dog_barking.wav", 1);
+		
+		public static Clips effect_shoot1 = load("/audio/shoot.wav", 1);
 		
 		
 		

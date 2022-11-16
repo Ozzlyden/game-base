@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import com.victor.main.Game;
+import com.victor.main.Sound;
 import com.victor.world.AStar;
 import com.victor.world.Camera;
 import com.victor.world.Vector2i;
@@ -97,6 +98,7 @@ public class Enemy3 extends Entity{
 				// Colocamos as posicoes atuais do Player
 				Vector2i end = new Vector2i((int) (Game.player.x/16), (int) (Game.player.y/16));	//destino final
 				path = AStar.findPath(Game.world, start, end);
+				Sound.Clips.effect_enemy3.play();
 			}
 		}else {
 			if(new Random().nextInt(100) < 10) {
@@ -146,6 +148,7 @@ public class Enemy3 extends Entity{
 	public void destroySelf() {
 		Game.enemies3.remove(this);
 		Game.entities.remove(this);
+		Sound.Clips.effect_hurt3.play();;
 	}
 	
 	//DANO BALA
