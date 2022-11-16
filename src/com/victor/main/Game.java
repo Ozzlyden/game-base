@@ -103,10 +103,10 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		addMouseMotionListener(this);
 		
 		//FULLSCREEN
-		setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
+		//setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
 		
 		//JANELA
-		//setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
+		setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
 		intFrame();
 		
 		//INICIALIZANDO OBJETOS
@@ -280,15 +280,15 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	
 	//SISTEMA DE ILUMINACAO
 	public void applyLight() {
-		/*
+		
 		for(int xx = 0; xx < Game.WIDTH; xx++) {
 			for (int yy = 0; yy < Game.HEIGHT; yy ++) {
 				if(lightMapPixels[xx + (yy * Game.WIDTH)] == 0xffffffff) {
-					pixels[xx + (yy * Game.WIDTH)] =0;
+					int pixel = Pixel.getLightBlend(pixels[xx + yy * WIDTH], 0x808080, 0);	//0x808080 eh a opacidade
+					pixels[xx + (yy * Game.WIDTH)] = pixel;
 				}
 			}
 		}
-		*/
 	}
 	
 	
@@ -323,9 +323,9 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		g = bs.getDrawGraphics();
 		
 		//drawRectangleExemple(xx, yy);
-		g.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
+		g.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);	//modo janela
 		//fullscreen 
-		g.drawImage(image, 0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height, null); 
+		//g.drawImage(image, 0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height, null); 
 		
 		//UI AMMMO 
 		g.setFont(new Font("arial", Font.BOLD, 20));
