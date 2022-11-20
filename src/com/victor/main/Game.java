@@ -79,6 +79,13 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	private int framesGameOver = 0;
 	private boolean restartGame = false;
 	
+	//CUT SCENE
+	public static int prohibited = 1;	//entrada
+	public static int start = 2;	//comecar
+	public static int playing = 3; 	//jogando
+	public static int statusScene = prohibited;		//status da cena
+	public int timeScene = 0, maxTimeScene = 60*2;	//tempo animacao cut scene
+	
 	public Menu menu;
 	
 	public int xx, yy;
@@ -118,6 +125,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		intFrame();
 		
 		//COLISAO AVANCADA(pixels collision)
+		/*
 		try {
 			sprite1 = ImageIO.read(getClass().getResource("/sprite_test_collision1.png"));
 			sprite2 = ImageIO.read(getClass().getResource("/sprite_test_collision2.png"));
@@ -129,7 +137,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		
 		pixels2 = new int[sprite2.getWidth() * sprite2.getHeight()];	
 		sprite2.getRGB(0, 0, sprite2.getWidth(), sprite2.getHeight(), pixels2, 0, sprite2.getTileWidth());
-		
+		*/
 		
 		//INICIALIZANDO OBJETOS
 		ui = new UI();
@@ -238,6 +246,9 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 			}
 		this.restartGame = false;
 		
+		//MODO PLAYING DEPOIS CUT SCENE
+		if(Game.statusScene == Game.playing) {
+			
 		//LOGICA PARA CRIAR ENTIDADES
 		for(int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
@@ -246,6 +257,24 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		//TIRO
 		for(int i = 0; i < bullets.size(); i++) {
 			bullets.get(i).tick();
+		}
+		}else {
+			//INICIO CUT SCENE
+			if(Game.statusScene == Game.prohibited) {
+				if(player.getX() < 100) {
+					player.x ++;
+				}else {
+					System.out.println("Entrada do Game finalizado");
+					Game.statusScene = Game.start;	//transicao
+				}
+			//COMECO CUT SCENE
+			}else if(Game.statusScene == Game.start) {
+				timeScene++;
+				System.out.println("Comecando");
+				if(timeScene == maxTimeScene) {
+					Game.statusScene = Game.playing;	//transicao
+				}
+			}
 		}
 		
 		//NEXT LEVEL
@@ -284,11 +313,12 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		}
 		
 		//TESTANDO COLISAO AVANCADO
+		/*
 		x1++;
 		if(this.isCollidingPerfect(x1, y1, x2, y2, pixels1, pixels2, sprite1, sprite2)) {
 			System.out.println("ESTAO COLIDINDO");
 		}
-		
+		*/
 	} 
 	
 
@@ -329,10 +359,10 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 					for(int yy2 = 0; yy2 < sprite2.getHeight(); yy2 ++) {
 						int pixelAtual1 = pixels1[xx1 + yy1 * sprite1.getWidth()];
 						int pixelAtual2 = pixels2[xx2 + yy2 * sprite2.getWidth()];
-						if(pixelAtual1 == 0x00ffffff || pixelAtual2 == 0x00ffffff) {	//se as posicoes pixel da image(sprite) for transparente
-							continue;
+						if(pixelAtual1 == 0x00ffffff || pixelAtual2 == 0x00ffffff) {	//se as posicoes do pixel da image(sprite) for transparente
+							continue;	//nao faz nada
 						}
-						if(xx1 + x1 == xx2 + x2 & yy1 + y1 == yy2 + y2) {
+						if(xx1 + x1 == xx2 + x2 & yy1 + y1 == yy2 + y2) {	//verificacao para ver se realmente estao colidindo
 							return true;
 						}
 					}
@@ -344,7 +374,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	}
 	
 	//RENDER PIXELS PERFECT
-	public void pixelsCollisionTest(Graphics g) {
+	public void renderPixelsCollision(Graphics g) {
 		g.drawImage(sprite1, x1, y1, null);
 		g.drawImage(sprite2, x2, y2, null);
 	}
@@ -375,7 +405,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		}
 		
 		//applyLight(); 	//efeito de luz
-		pixelsCollisionTest(g);
+		//renderPixelsCollision(g);
 		
 		ui.render(g);
 		g.dispose();
@@ -426,6 +456,13 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		
 		World.renderMiniMap();
 		g.drawImage(minimapa,618, 377,World.WIDTH * 5, World.HEIGHT * 5, null);
+		
+		//CUT SCENE
+		if(Game.statusScene == Game.start) {
+			g.drawString("O jogo esta para comecar", 230, 30);
+	
+		}
+		
 		bs.show();	
 	}
 
@@ -436,7 +473,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		
 		requestFocus();	//foco na janela do game ao iniciar
 		long lastTime = System.nanoTime();
-		double amountOfTicks = 5.0;
+		double amountOfTicks = 60.0;
 		double ns = 1000000000 / amountOfTicks;
 		double delta = 0;
 		int frames = 0;

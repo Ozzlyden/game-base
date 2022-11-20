@@ -28,9 +28,9 @@ public class Entity {
 	public static BufferedImage FLOWER = Game.spritesheet.getSprite(0, 128, 16, 16);
 	
 
-	protected double x;
-	protected double y;
-	protected double z;
+	public double x;
+	public double y;
+	public double z;
 	protected int width;
 	protected int height;
 	
