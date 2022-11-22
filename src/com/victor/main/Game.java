@@ -399,7 +399,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 			g.drawString(Npc.frases[0],70 , 90);
 		}
 	}
-	
+
 	
 	public void render() {
 		BufferStrategy bs = this.getBufferStrategy();
@@ -429,7 +429,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		//renderPixelsCollision(g);
 		
 		ui.render(g);
-		npc.render(g);
+		//npc.render(g);
 		g.dispose();
 		g = bs.getDrawGraphics();
 		
@@ -439,7 +439,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		//g.drawImage(image, 0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height, null); 
 		
 		uiAmmo(g);
-		messageNpc(g);
+		//messageNpc(g);
 		
 		/*	
 		//CASO QUEIRA USAR A FONT
@@ -553,6 +553,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		
 		if(e.getKeyCode() ==  KeyEvent.VK_ENTER) {
 			this.restartGame = true;
+			Npc.showMessage = false;
 			if(gameState == "MENU") {
 				menu.enter = true;
 			}
