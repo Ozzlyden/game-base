@@ -36,6 +36,7 @@ import com.victor.entities.Enemy1;
 import com.victor.entities.Enemy2;
 import com.victor.entities.Enemy3;
 import com.victor.entities.Entity;
+import com.victor.entities.Npc;
 import com.victor.entities.Player;
 import com.victor.graficos.Spritesheet;
 import com.victor.graficos.UI;
@@ -104,6 +105,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	public int[]pixels1;
 	public int[]pixels2;
 	
+	public Npc npc;
 	
 	public boolean saveGame = false;
 	
@@ -177,6 +179,9 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		npc = new Npc(32, 32, 16, 16,spritesheet.getSprite(48, 64, 16, 16));
+		entities.add(npc);
 		
 		menu = new Menu();
 	}
@@ -379,6 +384,22 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		g.drawImage(sprite2, x2, y2, null);
 	}
 	
+	//UI AMMO
+	public void uiAmmo(Graphics g) {
+		g.setFont(new Font("arial", Font.BOLD, 20));
+		g.setColor(Color.white);
+		g.drawString("Ammo: " + player.ammo, 590, 35);
+	}
+	
+	//UI AMMO
+	public void messageNpc(Graphics g) {
+		if(Npc.showMessage) {
+			g.setFont(new Font("Arial",Font.BOLD,11));
+			g.setColor(Color.white);
+			g.drawString(Npc.frases[0],70 , 90);
+		}
+	}
+	
 	
 	public void render() {
 		BufferStrategy bs = this.getBufferStrategy();
@@ -408,6 +429,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		//renderPixelsCollision(g);
 		
 		ui.render(g);
+		npc.render(g);
 		g.dispose();
 		g = bs.getDrawGraphics();
 		
@@ -416,10 +438,8 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		//fullscreen 
 		//g.drawImage(image, 0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height, null); 
 		
-		//UI AMMMO 
-		g.setFont(new Font("arial", Font.BOLD, 20));
-		g.setColor(Color.white);
-		g.drawString("Ammo: " + player.ammo, 590, 35);
+		uiAmmo(g);
+		messageNpc(g);
 		
 		/*	
 		//CASO QUEIRA USAR A FONT
