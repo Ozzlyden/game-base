@@ -71,6 +71,8 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	public static Random rand;
 	
 	public UI ui;
+	public Npc npc;
+	public Menu menu;
 	
 	public InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream("pixelart.ttf"); 	//fomte personalizada
 	public Font newfont;
@@ -87,8 +89,6 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	public static int statusScene = prohibited;		//status da cena
 	public int timeScene = 0, maxTimeScene = 60*2;	//tempo animacao cut scene
 	
-	public Menu menu;
-	
 	public int xx, yy;
 	public BufferedImage lightmap, icon;	
 	
@@ -104,8 +104,6 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 	public int x2 = 100, y2 = 100;
 	public int[]pixels1;
 	public int[]pixels2;
-	
-	public Npc npc;
 	
 	public boolean saveGame = false;
 	
@@ -275,7 +273,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 			//COMECO CUT SCENE
 			}else if(Game.statusScene == Game.start) {
 				timeScene++;
-				System.out.println("Comecando");
+				//System.out.println("Comecando");
 				if(timeScene == maxTimeScene) {
 					Game.statusScene = Game.playing;	//transicao
 				}
@@ -384,21 +382,6 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		g.drawImage(sprite2, x2, y2, null);
 	}
 	
-	//UI AMMO
-	public void uiAmmo(Graphics g) {
-		g.setFont(new Font("arial", Font.BOLD, 20));
-		g.setColor(Color.white);
-		g.drawString("Ammo: " + player.ammo, 590, 35);
-	}
-	
-	//UI AMMO
-	public void messageNpc(Graphics g) {
-		if(Npc.showMessage) {
-			g.setFont(new Font("Arial",Font.BOLD,11));
-			g.setColor(Color.white);
-			g.drawString(Npc.frases[0],70 , 90);
-		}
-	}
 
 	
 	public void render() {
@@ -429,7 +412,8 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		//renderPixelsCollision(g);
 		
 		ui.render(g);
-		//npc.render(g);
+		npc.render(g);
+		
 		g.dispose();
 		g = bs.getDrawGraphics();
 		
@@ -438,8 +422,8 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener, 
 		//fullscreen 
 		//g.drawImage(image, 0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height, null); 
 		
-		uiAmmo(g);
-		//messageNpc(g);
+		ui.messageAmmo(g);;
+		//npc.messageNpc(g);
 		
 		/*	
 		//CASO QUEIRA USAR A FONT

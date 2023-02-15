@@ -7,8 +7,20 @@ import java.awt.Graphics;
 import com.victor.entities.Player;
 import com.victor.main.Game;
 
+//USER INTERFACE
 public class UI {
-	//USER INTERFACE
+	
+	public void tick() {
+		
+	}
+	
+	//UI AMMO
+	public void messageAmmo(Graphics g) {
+		g.setFont(new Font("arial", Font.BOLD, 20));
+		g.setColor(Color.white);
+		g.drawString("Ammo: " + Game.player.ammo, 590, 35);
+	}
+	
 	
 	public void render(Graphics g) {
 		//So serve de backGraund
