@@ -33,8 +33,14 @@ public class BulletShoot extends Entity{
 		masky = 1;
 		
 		//LOGICA TIRO
+		if(World.isFreeDynamic((int) (x + (dx * spd)), (int) (y + (dy * spd)), (int) dz, 3, 3)) {
 		x+=dx * spd;
 		y+=dy * spd;
+		}else {
+			Game.bullets.remove(this);
+			World.generateParticles(50, (int) x, (int) y); // gerar 50 particulas
+			return;
+		}
 		curLife++;
 		
 		//COLISAO 

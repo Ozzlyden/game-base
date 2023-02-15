@@ -15,6 +15,7 @@ import com.victor.entities.Enemy3;
 import com.victor.entities.Entity;
 import com.victor.entities.Flower;
 import com.victor.entities.Lifepack;
+import com.victor.entities.Particle;
 import com.victor.entities.Player;
 import com.victor.entities.Weapon;
 import com.victor.graficos.Spritesheet;
@@ -192,6 +193,42 @@ public class World {
 		}
 	}
 	
+	public static void generateParticles(int amount, int x, int y) {
+		for(int i = 0; i < amount; i ++) {
+			Game.entities.add(new Particle(x, y, 1, 1, null)); // 1 por 1 = tamanho da particula
+		}
+		
+	}
+	
+	// METODO COLISAO BALA TILE
+	public static boolean isFreeDynamic(int xnext, int ynext, double z, int width, int height) {
+		//LOGICA DE COLOSIAO
+		int x1 = xnext / TILE_SIZE;
+		int y1 = ynext / TILE_SIZE;
+		//TILE_SIZE eh o tamanho da mascara em px
+		
+		int x2 =( xnext + width - 1) / TILE_SIZE;
+		int y2 = ynext / TILE_SIZE;
+		
+		int x3 = xnext / TILE_SIZE;
+		int y3 =(ynext + height-1)  / TILE_SIZE;
+		
+		int x4 = (xnext + width -1) / TILE_SIZE;
+		int y4 = (ynext + height-1)  / TILE_SIZE;
+		
+		// ! serve para negar o dado	
+		if(!((tiles[x1 + (y1 * World.WIDTH)]instanceof WallTile ||
+				(tiles[x2 + (y2 * World.WIDTH)]instanceof WallTile) ||
+				(tiles[x3 + (y3 * World.WIDTH)]instanceof WallTile) ||
+				(tiles[x4 + (y4 * World.WIDTH)]instanceof WallTile)))) {	
+			return true;
+		}
+		if(z > 0) {
+			return true;
+		}
+		return false;
+	}
+	
 	//METODO DE COLISOES
 	public static boolean isFree(int xnext, int ynext, double z) {
 		//LOGICA DE COLOSIAO
@@ -199,14 +236,14 @@ public class World {
 		int y1 = ynext / TILE_SIZE;
 		//TILE_SIZE eh o tamanho da mascara em px
 		
-		int x2 =( xnext+TILE_SIZE-1) / TILE_SIZE;
+		int x2 =( xnext + TILE_SIZE - 1) / TILE_SIZE;
 		int y2 = ynext / TILE_SIZE;
 		
 		int x3 = xnext / TILE_SIZE;
-		int y3 =(ynext+TILE_SIZE-1)  / TILE_SIZE;
+		int y3 =(ynext+ TILE_SIZE - 1)  / TILE_SIZE;
 		
-		int x4 = (xnext+TILE_SIZE-1) / TILE_SIZE;
-		int y4 = (ynext+TILE_SIZE-1)  / TILE_SIZE;
+		int x4 = (xnext + TILE_SIZE - 1) / TILE_SIZE;
+		int y4 = (ynext + TILE_SIZE - 1)  / TILE_SIZE;
 		
 		// ! serve para negar o dado	
 		if(!((tiles[x1 + (y1 * World.WIDTH)]instanceof WallTile ||
