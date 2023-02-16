@@ -86,8 +86,30 @@ public class Player extends Entity {
 		}
 		
 	}
+	
+	// Efeito (Fog of war)
+	public void revealMap() {
+		int xx = (int) (x/16);
+		int yy = (int) (y/16);
+
+		World.tiles[xx - 1 + yy * World.WIDTH].show = true;
+		World.tiles[xx + yy * World.WIDTH].show = true;
+		
+		World.tiles[xx + ((yy + 1) * World.WIDTH)].show = true;
+		World.tiles[xx + ((yy - 1) * World.WIDTH)].show = true;
+		
+		//Canto superio direito
+		World.tiles[xx - 1 + ((yy - 1) * World.WIDTH)].show = true;
+		World.tiles[xx + 1 + ((yy - 1) * World.WIDTH)].show = true;
+		//Canto superio esquerdo
+		World.tiles[xx + 1 + ((yy + 1) * World.WIDTH)].show = true;
+		World.tiles[xx - 1 + ((yy + 1) * World.WIDTH)].show = true;
+		
+	}
 
 	public void tick() {
+		revealMap();
+		
 		fakeJump();
 		// CAMADA DE RENDER
 		depth = 2;

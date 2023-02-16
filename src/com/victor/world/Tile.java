@@ -13,6 +13,8 @@ public class Tile {
 	
 	public static BufferedImage TILE_WALL = Game.spritesheet.getSprite(16, 144, 16, 16);
 	
+	public boolean show = false;
+	
 	private BufferedImage sprite;
 	private int x, y;
 	
@@ -23,8 +25,9 @@ public class Tile {
 	}
 	
 	public void render (Graphics g) {
-		g.drawImage(sprite, x - Camera.x, y - Camera.y, null);
+		if(show ) {
+			g.drawImage(sprite, x - Camera.x, y - Camera.y, null);
+		}
 	}
 	
-
 }
